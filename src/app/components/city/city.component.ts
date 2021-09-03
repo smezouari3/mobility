@@ -13,6 +13,7 @@ export class CityComponent implements OnInit {
 
   public dialogVisible: boolean;
 
+  //tst
 
   constructor(config: NgbModalConfig, private router: Router, private modalService: NgbModal, private authorisationService:AuthorisationService, private authenticationService:AuthenticationService) {
   }

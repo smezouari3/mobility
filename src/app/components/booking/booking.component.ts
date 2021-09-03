@@ -38,7 +38,7 @@ const infowindow = new google.maps.InfoWindow();
 })
 export class BookingComponent implements OnInit {
 
-
+//tst1
 
   public paymentTypes = [
     { value: "Cash", label: "Cash" },
