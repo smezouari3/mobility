@@ -21,7 +21,7 @@ export class MegaMenuComponent implements OnInit {
   public megaItems: Menu[];
   public levelmenuitems: Menu[];
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
   private subscriptions: Subscription[] = [];
   public menu=false;

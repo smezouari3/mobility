@@ -45,7 +45,7 @@ export class BookingsListComponent implements OnInit {
   selectedSize=10;
   sizing=[10,20,50,100];
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
   public periode = [
     { value: "2629800000", label: "1 Mois" },

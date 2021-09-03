@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 export class NotificationService {
 
   private notification:Notification;
-  private host = environment.apiUrl;
+  private host = "http://localhost:8081";
   private records=[];
   notification$: BehaviorSubject<Notification> = new BehaviorSubject<Notification>(null);
 

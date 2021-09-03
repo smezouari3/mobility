@@ -55,7 +55,7 @@ export class DriverProfilComponent implements OnInit {
 
   public url: any;
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
   filtredBooking:Booking[];
   selectedBookings:Booking[];
   loading: boolean = true;

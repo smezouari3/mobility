@@ -61,7 +61,7 @@ export class DriverBookingComponent implements OnInit {
   selectedPeriode={ value: "2629800000", label: "1 Mois" };
 
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
 
   constructor(private webSocketService: WebSocketService,private userService:UserService, private vehicleTypeService:VehicleTypeService, private modalService: NgbModal, private authService:AuthenticationService,public bookingService:BookingService, public router:Router) {

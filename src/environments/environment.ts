@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8081',
+  apiUrl: '"http://localhost:8081"',
   // apiUrl: 'http://192.168.43.250:8081',
   firebase: {
     apiKey: "Your Api Key",

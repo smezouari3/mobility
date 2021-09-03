@@ -50,7 +50,7 @@ export class VehicleTypeListComponent implements OnInit {
   public tooltipValidation = false;
   show=false;
   cat: any[] = [];
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
   title = 'ngImageCrop';
   imageChangedEventAdd: any = '';

@@ -69,7 +69,7 @@ export class BookingDetailComponent implements OnInit {
   // movingPin2: google.maps.Marker=new google.maps.Marker();
   // movingPin3: google.maps.Marker=new google.maps.Marker()
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
   constructor(private route: ActivatedRoute,private webSocketService: WebSocketService, private router:Router,private authService:AuthenticationService,private notificationService:NotificationsService , private bookingService:BookingService, private ratingService:RatingService, private vehicleTypeService:VehicleTypeService,private driverService:DriverService) {
 

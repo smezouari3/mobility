@@ -49,7 +49,7 @@ export class NotificationOrderComponent implements OnInit {
   selectedSize=10;
   sizing=[10,20,50,100];
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
 
   constructor(private webSocketService: WebSocketService,private userService:UserService, private vehicleTypeService:VehicleTypeService, private modalService: NgbModal, private authService:AuthenticationService,public bookingService:BookingService, public router:Router) {

@@ -17,7 +17,7 @@ export class VehicleCategoryService {
   private subscriptions: Subscription[] = [];
 
 
-  private host = environment.apiUrl;
+  private host = "http://localhost:8081";
 
   constructor(private http: HttpClient) {
     // console.log("i called vehicleCategoryService");

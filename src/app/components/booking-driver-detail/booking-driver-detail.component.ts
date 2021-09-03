@@ -75,7 +75,7 @@ export class BookingDriverDetailComponent implements OnInit {
   fromAdress:any;
   toAdress:any;
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
 
   constructor(private route: ActivatedRoute, private router:Router,private notificationService:NotificationsService,private ratingService:RatingService, private settingService:SettingsService, private authService:AuthenticationService, private bookingService:BookingService, private vehicleTypeService:VehicleTypeService,private userService:UserService) {

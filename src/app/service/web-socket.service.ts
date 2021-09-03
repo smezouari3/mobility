@@ -8,7 +8,7 @@ import * as SockJs from 'sockjs-client';
 })
 export class WebSocketService {
 
-  private host = environment.apiUrl;
+  private host = "http://localhost:8081";
 
   constructor() { }
 

@@ -54,7 +54,7 @@ export class ProfilUserComponent implements OnInit {
   cities:City[]=[];
   vehicleType:VehicleType=null;
   roleSelected;
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
   currenUserName='';
   email='';
 

@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TheAccountComponent implements OnInit {
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
   private subscriptions: Subscription[] = [];
   public menu=false;

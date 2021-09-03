@@ -37,7 +37,7 @@ export class WalletComponent implements OnInit {
   montant:number=0;
   montantRetrait:number=0;
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
   private subscriptions: Subscription[] = [];
 
 

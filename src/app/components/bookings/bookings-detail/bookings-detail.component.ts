@@ -74,7 +74,7 @@ export class BookingsDetailComponent implements OnInit {
   // movingPin2: google.maps.Marker=new google.maps.Marker();
   // movingPin3: google.maps.Marker=new google.maps.Marker()
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
   driverId=0;
 
   slctDrive:any;

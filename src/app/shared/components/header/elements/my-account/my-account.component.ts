@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class MyAccountComponent implements OnInit {
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
   public menu=false;
   authUser:User;

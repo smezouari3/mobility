@@ -36,7 +36,7 @@ export class DriverPublicInfoComponent implements OnInit {
   rat:number=0;
   countRat:number=0;
   id:number=-1;
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
   bookingShow:Booking[]=[];
   ratings:Rating[]=[];
   dataRating=[];

@@ -105,7 +105,7 @@ export class BookingComponent implements OnInit {
   point:number;
   dateNow = this.calendar.getToday();
   authUser:User;
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
 
 

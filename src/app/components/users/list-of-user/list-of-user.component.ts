@@ -62,7 +62,7 @@ export class ListOfUserComponent implements OnInit {
     {key:"ROLE_HR",value:"HR"},
   ];
 
-  public host = environment.apiUrl;
+  public host = "http://localhost:8081";
 
 
   constructor(private webSocketService: WebSocketService, private cityService:CityService, private driverService:DriverService, private userService:UserService,private vehicleTypeService:VehicleTypeService, private modalService: NgbModal, private authService:AuthenticationService, public router:Router) {

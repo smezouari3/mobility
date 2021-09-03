@@ -13,7 +13,7 @@ export class RatingService {
   private record:Rating;
   private records:any[];
 
-  private host = environment.apiUrl;
+  private host = "http://localhost:8081";
 
   constructor(private http: HttpClient) {}
 
