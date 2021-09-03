@@ -1,0 +1,32 @@
+#map {
+  height: 500px;
+}
+
+.disp-none{
+  display: none;
+}
+
+.custom-btn{
+  display: inline-block;
+  border: 0px;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  background-color: rgba(115, 102, 255, 0.15);
+  transition: all 0.3s ease;
+  color: var(--theme-deafult);
+  text-decoration: none;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+  font-family: Rubik, sans-serif;
+}
+
+.slect{
+border: 0px;
+border-radius: 0px;
+}
+
+.location-btn{
+  background-color: white !important;
+  font-weight: 800;
+  border-radius: 100% !important;
+}

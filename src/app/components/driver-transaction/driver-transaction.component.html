@@ -1,0 +1,129 @@
+<app-breadcrumb [title]="'Mes demandes de retrait'" [items]="['Apps']" [active_item]="'Retrait'"></app-breadcrumb>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="invoice">
+            <div>
+              <div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="media">
+                      <div class="media-left"><img class="media-object rounded-circle img-60" [src]="host+authUser.profileImageUrl" alt=""></div>
+                      <div class="media-body m-l-20">
+                        <h4 class="media-heading">{{authUser.firstName}} {{authUser.lastName}}</h4>
+                        <p>{{authUser.email}}<br><span>{{authUser.phone}}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="text-md-right">
+                      <h3>Solde : <span class="counter">{{authUser.profit}} </span> MAD</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-lg-3 mt-3">
+                  <ng-select [items]="periode" placeholder="Select" class="js-example-placeholder-multiple" [(ngModel)]="selectedPeriode" (change)="changePeriode($event)"></ng-select>
+                </div>
+                <div class="col-lg-9 text-right mt-3">
+                  <button class="btn btn-square btn-primary ml-3 text-right" *ngIf="authUser.driver!=null" (click)="openDemande(demande)">Demander un retrait</button>
+                </div>
+              </div>
+              <div>
+                <div class="table-responsive invoice-table" id="table">
+                  <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr>
+                        <td class="item">
+                          <h6 class="p-2 mb-0">Type de transaction</h6>
+                        </td>
+                        <td class="Hours">
+                          <h6 class="p-2 mb-0">Date</h6>
+                        </td>
+                        <td class="Rate">
+                          <h6 class="p-2 mb-0">Etat</h6>
+                        </td>
+                        <td class="Rate">
+                          <h6 class="p-2 mb-0">Montant</h6>
+                        </td>
+                        <td class="Rate">
+                          <h6 class="p-2 mb-0"></h6>
+                        </td>
+
+                      </tr>
+                      <tr *ngFor="let transaction of filtredTransactions">
+                        <td>
+                          <p class="m-0">{{transaction.transactionType}}</p>
+                        </td>
+                        <td>
+                          <p class="itemtext">{{transaction.dateTimeTransaction}}</p>
+                        </td>
+                        <td>
+                          <p class="itemtext badge badge-pill badge-warning" *ngIf="transaction.statutTransaction=='En attent'">{{transaction.statutTransaction}}</p>
+                          <p class="itemtext badge badge-pill badge-success" *ngIf="transaction.statutTransaction=='Accepter'">{{transaction.statutTransaction}}</p>
+                          <p class="itemtext badge badge-pill badge-danger" *ngIf="transaction.statutTransaction=='Refuser'">{{transaction.statutTransaction}}</p>
+                          <p class="itemtext badge badge-pill badge-secondary" *ngIf="transaction.statutTransaction=='Annuler'">{{transaction.statutTransaction}}</p>
+                        </td>
+                        <td>
+                          <p class="itemtext">{{transaction.amount}} MAD</p>
+                        </td>
+                        <td>
+                          <button class="btn btn-square btn-xs btn-secondary" *ngIf="transaction.statutTransaction=='En attent'" (click)="CancelTransaction(transaction)">Annuler</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #demande let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitResult3()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Montant</label>
+                <input class="form-control" type="text" required="" placeholder="" name="montant" [(ngModel)]="montantRetrait">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Méthode de virement</label>
+                <ng-select [items]="transactionMethode" placeholder="Select" class="js-example-placeholder-multiple" [(ngModel)]="selectedTransactionMethode"></ng-select>
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Retrait</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,215 @@
+<simple-notifications></simple-notifications>
+
+<app-breadcrumb [title]="'La liste des utilisateurs'" [items]="['Apps']" [active_item]="'liste des utilisateurs'"></app-breadcrumb>
+ <!-- Container-fluid starts-->
+ <div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 project-list">
+      <div class="card">
+        <div class="row align-items-center">
+          <div class="col-xl-9">
+            <ul class="nav nav-tabs border-tab" id="top-tab" role="tablist">
+              <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-home" aria-selected="true" (click)="filterRole('All')" [class]="role=='All' ? 'active' : ''"><i data-feather="target"></i>Tout</a></li>
+              <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-profile" aria-selected="false" (click)="filterRole('ROLE_USER')" [class]="role=='ROLE_USER' ? 'active' : ''">Client</a></li>
+              <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-profile" aria-selected="false" (click)="filterRole('ROLE_DRIVER')" [class]="role=='ROLE_DRIVER' ? 'active' : ''">Chaffeur</a></li>
+              <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-profile" aria-selected="false" (click)="filterRole('ROLE_SUPER_ADMIN')" [class]="role=='ROLE_SUPER_ADMIN' ? 'active' : ''">Super admin</a></li>
+              <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-profile" aria-selected="false" (click)="filterRole('ROLE_ADMIN')" [class]="role=='ROLE_ADMIN' ? 'active' : ''">Admin</a></li>
+              <!-- <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-profile" aria-selected="false" (click)="filterRole('Terminer')" [class]="role=='Terminer' ? 'active' : ''">Terminer</a></li>
+              <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab" href="javascript:void(0)" role="tab" aria-controls="top-profile" aria-selected="false" (click)="filterRole('Annuler')" [class]="role=='Annuler' ? 'active' : ''">Annuler</a></li> -->
+            </ul>
+          </div>
+          <div class="col-xl-3">
+            <div class="input-group m-0">
+              <input type="text"
+              [(ngModel)]="placesText"
+              placeholder="Chercher"
+              class="form-control"
+              />
+              <div class="input-group-append" (click)="filter()"><span class="btn btn-primary"><i data-feather="search"></i></span></div>
+              <div class="input-group-append" (click)="clear()" *ngIf="placesText!=''"><span class="btn btn-light">X</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header ">
+          <div class="row">
+            <div class="col-9"></div>
+            <div class="col-3 text-right">
+              <button class="custom-btn" type="submit" (click)="open(add)"><span> Ajouter</span></button>
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="top-tabContent">
+            <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+              <div class="row">
+                <div class="col-md-6 col-xl-4 box-col-6 xl-50" *ngFor="let item of filtredData | slice: (currentPage-1) * selectedSize : (currentPage-1) * selectedSize + selectedSize" style="margin-bottom: 15px;">
+                  <div class="card custom-card" (click)="redirect(item.user.id)" style="cursor: pointer;">
+                    <div class="card-profile"><img class="rounded-circle avatar-user" [src]="host+item.user.profileImageUrl" alt=""></div>
+                    <ul class="card-social">
+                      <li><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li>
+                      <li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
+                      <li><a href="javascript:void(0)"><i class="fa fa-rss"></i></a></li>
+                    </ul>
+                    <div class="text-center profile-details">
+                      <h4>{{item.user.firstName}} {{item.user.lastName}}</h4>
+                      <h6>{{item.user.role.split('_')[1]}} {{item.user.role.split('_')[2]}}</h6>
+                    </div>
+                    <div class="card-footer row">
+                      <div class="col-4 col-sm-4">
+                        <h6>Email</h6>
+                        <p class="counter">{{item.user.email}}</p>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <h6>Username</h6>
+                        <p>{{item.user.username}}</p>
+                      </div>
+                      <div class="col-4 col-sm-4">
+                        <h6>Telephone</h6>
+                        <p>{{item.user.phone}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="card-footer">
+          <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4 text-center align-items-center align-content-center">
+              <ngb-pagination [collectionSize]="(filtredData.length/selectedSize)*10" [(page)]="currentPage" [maxSize]="5"></ngb-pagination>
+            </div>
+            <div class="col-4"></div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitAdd()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom02">Nom</label>
+                <input class="form-control" id="validationCustom02" type="text" placeholder="Nom" required="" name="lastName" [(ngModel)]="user.lastName">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom01">Prenom</label>
+                <input class="form-control" id="validationCustom01" type="text" placeholder="Prenom" required="" name="firstName" [(ngModel)]="user.firstName">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustomUsername">Nom d'utilisateur</label>
+                <input class="form-control" id="validationCustomUsername" type="text" placeholder="nom d'utilisateur" required="" name="username" [(ngModel)]="user.username">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom03s">Email</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span class="input-group-text" id="inputGroupPrepend">@</span></div>
+                  <input class="form-control" id="validationCustom03s" type="email" placeholder="Email" required="" aria-describedby="inputGroupPrepend"  name="email" email [(ngModel)]="user.email">
+                  <div class="invalid-feedback">Please choose an email.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustomPhone">Tel</label>
+                <input class="form-control" id="validationCustomPhone" type="text" placeholder="Tel" required="" name="phone" onlyNumbers [(ngModel)]="user.phone">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom03ss">Role</label>
+                <ng-select id="validationCustom03ss" [items]="roles" bindLabel="value" bindValue="key" onlyAlphabets placeholder="Select"
+                class="js-example-placeholder-multiple" name="role" [(ngModel)]="user.role">
+                </ng-select>
+              </div>
+
+              <div class="form-group" *ngIf="user.role=='ROLE_DRIVER'">
+                <label for="validationCustom03ss">Ville</label>
+                <ng-select id="validationCustom03ss" [items]="cityList" bindLabel="value" bindValue="key" onlyAlphabets placeholder="Select"
+                class="js-example-placeholder-multiple" name="role" [(ngModel)]="city">
+                </ng-select>
+              </div>
+              <!-- <div class="form-group" *ngIf="user.role=='ROLE_DRIVER'">
+                <label class="col-form-label">Ville</label>
+                <select class="form-control" [(ngModel)]="city_id" >
+                  <option *ngFor="let city of cities"
+                      [value]="city.id"
+                      [attr.selected]="driver.city_id==city.id ? true : null">
+                    {{city.name}}
+                  </option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+              </div> -->
+              <!-- <div class="form-group">
+                <label for="validationCustom04" translate="">Le type</label>
+                <select class="form-control" [(ngModel)]="recordEdit.vehicle_category_id" >
+                  <option *ngFor="let vehicleCategorie of vehicleCategories"
+                      [value]="vehicleCategorie.id"
+                      [attr.selected]="recordEdit.vehicle_category_id==vehicleCategorie.id ? true : null">
+                    {{vehicleCategorie.name}}
+                  </option>
+                </select>
+              </div> -->
+              <div class="form-group">
+                <div class="form-check">
+                  <div class="media">
+                    <label class="col-form-label m-r-10">Active</label>
+                    <div class="media-body text-right icon-state">
+                      <label class="switch">
+                        <input type="checkbox" checked="" name="active" [(ngModel)]="user.isActive"><span class="switch-state"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <div class="media">
+                    <label class="col-form-label m-r-10">Unlocked</label>
+                    <div class="media-body text-right icon-state">
+                      <label class="switch">
+                        <input type="checkbox" checked="" name="notLocked" [(ngModel)]="user.isNotLocked"><span class="switch-state"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Ajouter</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

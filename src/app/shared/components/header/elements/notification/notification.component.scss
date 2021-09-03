@@ -1,0 +1,29 @@
+.item{
+  text-align: center;
+    border-top: 1px solid #ecf3fa;
+    margin-right: 0 !important;
+    background-color: #fefeff !important;
+    box-sizing: border-box;
+    display: list-item;
+padding: 10px;
+cursor: pointer;
+}
+
+.itemp{
+  margin-bottom: 8px;
+  opacity: 0.6;
+  line-height: 1.5;
+    margin: 0 0 1rem 0;
+    font-size: 13px;
+    letter-spacing: 0.7px;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+
+.disp-none{
+  display: none;
+}

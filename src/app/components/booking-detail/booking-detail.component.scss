@@ -1,0 +1,24 @@
+
+.map {
+  height: 650px;
+}
+
+.custom-btn{
+  display: inline-block;
+  border: 0px;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  background-color: rgba(115, 102, 255, 0.15);
+  transition: all 0.3s ease;
+  color: var(--theme-deafult);
+  text-decoration: none;
+  letter-spacing: 1px;
+  box-sizing: border-box;
+  font-family: Rubik, sans-serif;
+}
+.filled {
+  color: #f6b01e !important;
+}
+.disp-none{
+  display: none;
+}

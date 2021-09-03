@@ -1,0 +1,111 @@
+
+<p-table #dt [value]="users" [(selection)]="selectedUsers" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[filterDelay]="0" [globalFilterFields]="['userId','firstName','lastName','email','phone','username']">
+
+<ng-template pTemplate="caption">
+  <div class="table-header">
+      <span class="p-input-icon-left">
+          <input pInputText type="text" class="form-control" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+      </span>
+  </div>
+</ng-template>
+
+<ng-template pTemplate="header">
+  <tr>
+    <!-- <th style="width: 3rem"></th> -->
+    <th style="width: 3rem"></th>
+    <th pSortableColumn="userId">
+      <div class="p-d-flex p-jc-between p-ai-center">
+        ID
+        <p-sortIcon field="userId"></p-sortIcon>
+        <p-columnFilter type="text" field="userId" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="firstName">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        user.First_Name
+        <p-sortIcon field="firstName"></p-sortIcon>
+        <p-columnFilter type="text" field="firstName" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="lastName">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        user.Last_Name
+        <p-sortIcon field="lastName"></p-sortIcon>
+        <p-columnFilter type="text" field="lastName" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="username">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        user.User_Name
+        <p-sortIcon field="username"></p-sortIcon>
+        <p-columnFilter type="text" field="username" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="email">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        user.Email
+        <p-sortIcon field="email"></p-sortIcon>
+        <p-columnFilter type="text" field="email" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="phone">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        user.Phone
+        <p-sortIcon field="phone"></p-sortIcon>
+        <p-columnFilter type="text" field="phone" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="role">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        user.Role
+        <p-sortIcon field="role"></p-sortIcon>
+        <p-columnFilter type="text" field="role" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+
+    <!-- <th pSortableColumn="joinDate" translate="">
+      <div class="p-d-flex p-jc-between p-ai-center">
+        Date
+        <p-sortIcon field="joinDate"></p-sortIcon>
+        <p-columnFilter type="date" field="joinDate" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th> -->
+    <th></th>
+  </tr>
+</ng-template>
+
+<ng-template pTemplate="body" let-user let-expanded="expanded">
+  <tr class="p-selectable-row">
+    <td>
+      <img [alt]="user.name" src="{{user.profileImageUrl}}" width="32px" style="vertical-align: middle" />
+    </td>
+    <td> {{user.userId}}</td>
+    <td> {{user.firstName}} </td>
+    <td> {{user.lastName}} </td>
+    <td> {{user.username}} </td>
+    <td> {{user.email}} </td>
+    <td> {{user.phone}} </td>
+    <td> {{user.role.replace("ROLE_","")}} </td>
+    <!-- <td> {{user.joinDate| date: 'MM/dd/yyyy'}} </td> -->
+    <td>
+      <div class="btn-group">
+        <button class="btn btn-primary" (click)="editRecord(user)"><i class="icofont icofont-ui-edit"></i></button>
+        <button class="btn btn-secondary" (click)="deleteRecord(user)"><i class="icofont icofont-ui-delete"></i></button>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template pTemplate="emptymessage">
+  <tr>
+      <td colspan="8" translate="">No_Record_found</td>
+  </tr>
+</ng-template>
+</p-table>
+
+<p-dialog [(visible)]="recordDialog" [style]="{width: '48vw'}" header="" [modal]="true" styleClass="p-fluid">
+  <!-- <app-user-edit [user]="this.userEdit"></app-user-edit> -->
+</p-dialog>

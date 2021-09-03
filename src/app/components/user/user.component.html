@@ -1,0 +1,26 @@
+<simple-notifications></simple-notifications>
+
+<app-breadcrumb [title]="'list_of_users'" [items]="['Dashboard']" [active_item]="'list_of_users'"></app-breadcrumb>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="content-section implementation">
+            <div class="card">
+              <div class="col-sm-3 m-4">
+                <button type="button" (click)="showDialog()" class="btn btn-primary" translate="">btn.add</button>
+              </div>
+              <app-user-list></app-user-list>
+              <p-dialog header=" " [(visible)]="dialogVisible" [style]="{width: '60vw'}" [maximizable]="true" [modal]="true" [resizable]="true" [contentStyle]="{height: '650px'}">
+                <!-- <app-user-list></app-user-list> -->
+                <app-user-add></app-user-add>
+              </p-dialog>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

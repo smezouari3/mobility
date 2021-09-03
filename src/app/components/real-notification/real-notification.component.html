@@ -1,0 +1,12 @@
+
+  <div class="youps-notification-panel" style="cursor: pointer;" (click)="redirectTo()" [ngClass]="{ 'show-notification-panel': showPanel }" *ngIf="showPanel==true">
+    <div class="notification-box youps-notification-logo" style="cursor: pointer;" (click)="redirectTo()">
+      <app-feather-icons [icon]="'bell'"></app-feather-icons>
+    </div>
+    <div class="youps-notification-panel-content" style="cursor: pointer;" (click)="redirectTo()">
+        <p style="margin:0">{{currentNotification.content.split('|')[0]}}</p>
+    </div>
+    <div class="youps-notification-close" (click)="dismissNotification()">
+      <i class="icon-close"></i>
+    </div>
+  </div>

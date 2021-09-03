@@ -1,0 +1,156 @@
+<app-breadcrumb [title]="'les demandes de Retrait'" [items]="['Apps']" [active_item]="'transactions'"></app-breadcrumb>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="content-section implementation">
+            <div class="card">
+              <div class="card-header text-right">
+                <button class="custom-btn" (click)="open(demande)">Demande de retrait</button>
+              </div>
+
+              <p-table #dt [value]="transactions" [(selection)]="selectedTransactions" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+              [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+              [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              [filterDelay]="0" [globalFilterFields]="['userTransaction.lastName','transactionType','dateTimeTransaction','amount','userTransaction.profit','statutTransaction']">
+
+              <ng-template pTemplate="caption">
+                <div class="table-header">
+                    <span class="p-input-icon-left">
+                        <input pInputText type="text" class="form-control" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                    </span>
+                </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="userTransaction.lastName">
+                    <div class="p-d-flex p-jc-between p-ai-center" translate="">
+                      Nom
+                      <p-sortIcon field="userTransaction.lastName"></p-sortIcon>
+                      <p-columnFilter type="text" field="userTransaction.lastName" display="menu" class="p-ml-auto"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th pSortableColumn="transactionType">
+                    <div class="p-d-flex p-jc-between p-ai-center" translate="">
+                      Type de retrait
+                      <p-sortIcon field="transactionType"></p-sortIcon>
+                      <p-columnFilter type="text" field="transactionType" display="menu" class="p-ml-auto"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th pSortableColumn="dateTimeTransaction" translate="">
+                    <div class="p-d-flex p-jc-between p-ai-center">
+                      Date
+                      <p-sortIcon field="dateTimeTransaction"></p-sortIcon>
+                      <p-columnFilter type="date" field="dateTimeTransaction" display="menu" class="p-ml-auto"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th pSortableColumn="amount">
+                    <div class="p-d-flex p-jc-between p-ai-center" translate="">
+                      Montant
+                      <p-sortIcon field="vehicleName"></p-sortIcon>
+                      <p-columnFilter type="text" field="vehicleName" display="menu" class="p-ml-auto"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th pSortableColumn="userTransaction.profit">
+                    <div class="p-d-flex p-jc-between p-ai-center" translate="">
+                      Profit
+                      <p-sortIcon field="userTransaction.profit"></p-sortIcon>
+                      <p-columnFilter type="text" field="userTransaction.profit" display="menu" class="p-ml-auto"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th pSortableColumn="statutTransaction">
+                    <div class="p-d-flex p-jc-between p-ai-center" translate="">
+                      Etat
+                      <p-sortIcon field="statutTransaction"></p-sortIcon>
+                      <p-columnFilter type="text" field="statutTransaction" display="menu" class="p-ml-auto"></p-columnFilter>
+                    </div>
+                  </th>
+                  <th></th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-record let-expanded="expanded">
+                <tr class="p-selectable-row">
+                  <td> <button class="btn btn-link" (click)="redirect(record)">{{record.userTransaction.lastName}} {{record.userTransaction.firstName}}</button></td>
+                  <td> {{record.transactionType}}</td>
+                  <td> {{record.dateTimeTransaction | date: 'MM/dd/yyyy HH:mm'}} </td>
+                  <td> <b>{{record.amount}} MAD</b></td>
+                  <td> <b>{{record.userTransaction.profit}} MAD</b></td>
+                  <td>
+                    <p class="itemtext badge badge-pill badge-warning" *ngIf="record.statutTransaction=='En attent'">{{record.statutTransaction}}</p>
+                    <p class="itemtext badge badge-pill badge-success" *ngIf="record.statutTransaction=='Accepter'">{{record.statutTransaction}}</p>
+                    <p class="itemtext badge badge-pill badge-danger" *ngIf="record.statutTransaction=='Refuser'">{{record.statutTransaction}}</p>
+                    <p class="itemtext badge badge-pill badge-secondary" *ngIf="record.statutTransaction=='Annuler'">{{record.statutTransaction}}</p>
+                  </td>
+                  <td>
+                    <div class="btn-group" *ngIf="record.statutTransaction=='En attent'">
+                      <button class="btn btn-xs btn-primary mr-1" (click)="Accept(record)"><i class="icofont icofont-ui-check"></i> Accepter</button>
+                      <button class="btn btn-xs btn-secondary" (click)="Refuse(record)"><i class="icofont icofont-ui-close"></i> Refuser</button>
+                    </div>
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" translate="">No_Record_found</td>
+                </tr>
+              </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #demande let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Retrait</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitResult3()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <div class="col-form-label"><p>Client</p></div>
+                <ng-select [items]="dropDrivers" placeholder="Select" class="valid-feedback"
+                class="js-example-placeholder-multiple" [(ngModel)]="selectedDriver"></ng-select>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Montant</label>
+                <input class="form-control" type="text" required="" placeholder="" name="montant" [(ngModel)]="montantRetrait">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Méthode de virement</label>
+                <ng-select [items]="transactionMethode" placeholder="Select" class="js-example-placeholder-multiple" [(ngModel)]="selectedTransactionMethode"></ng-select>
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Retrait</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

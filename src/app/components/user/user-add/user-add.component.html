@@ -1,0 +1,91 @@
+<div class="card">
+  <div class="card-header">
+    <h5 translate="">user.add</h5>
+    <!-- <span>Using the <a href="javascript:void(0)">card</a> component, you can extend the default collapse behavior to create an accordion.</span> -->
+  </div>
+  <!-- <form class="needs-validation theme-form" #profileUserForm="ngForm" novalidate [ngClass]="{'was-validated': validate}" (ngSubmit)="onUpdateUser(profileUserForm.value)"> -->
+    <form class="needs-validation theme-form" #editUserForm="ngForm" novalidate [ngClass]="{'was-validated': validate}" >
+  <div class="card-body">
+
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="validationCustom01">First name</label>
+          <input class="form-control" id="validationCustom01" type="text" placeholder="First name" required="" name="firstName" [(ngModel)]="user.firstName">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="validationCustom02">Last name</label>
+          <input class="form-control" id="validationCustom02" type="text" placeholder="Last name" required="" name="lastName" [(ngModel)]="user.lastName">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="validationCustomUsername">Username</label>
+          <input class="form-control" id="validationCustomUsername" type="text" placeholder="username" required="" name="username" [(ngModel)]="user.username">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="validationCustom03s">Email</label>
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroupPrepend">@</span></div>
+            <input class="form-control" id="validationCustom03s" type="email" placeholder="Email" required="" aria-describedby="inputGroupPrepend"  name="email" email [(ngModel)]="user.email">
+            <div class="invalid-feedback">Please choose an email.</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- <div class="form-row">
+        <div class="col-md-12 mb-3">
+          <label for="validationCustomPhone">Tel</label>
+          <input class="form-control" id="validationCustomPhone" type="text" placeholder="Tel" required="" name="phone" onlyNumbers [(ngModel)]="user.phone">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div> -->
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <label for="validationCustomPhone">Tel</label>
+          <input class="form-control" id="validationCustomPhone" type="text" placeholder="Tel" required="" name="phone" onlyNumbers [(ngModel)]="user.phone">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="validationCustom03ss">Role</label>
+          <ng-select id="validationCustom03ss" [items]="roles" bindLabel="value" bindValue="key" onlyAlphabets placeholder="Select"
+          class="js-example-placeholder-multiple" name="role" [(ngModel)]="user.role">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <div class="media">
+            <label class="col-form-label m-r-10">Active</label>
+            <div class="media-body text-right icon-state">
+              <label class="switch">
+                <input type="checkbox" checked="" name="active" [(ngModel)]="user.isActive"><span class="switch-state"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <div class="media">
+            <label class="col-form-label m-r-10">Unlocked</label>
+            <div class="media-body text-right icon-state">
+              <label class="switch">
+                <input type="checkbox" checked="" name="notLocked" [(ngModel)]="user.isNotLocked"><span class="switch-state"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary mr-1" (click)="submit()" [disabled]="editUserForm.invalid" >Submit</button>
+    <button class="btn btn-secondary">Cancel</button>
+    <button class="btn btn-primary" (click)="lod()">Reset</button>
+
+  </div>
+</form>
+</div>

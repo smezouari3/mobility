@@ -1,0 +1,292 @@
+<simple-notifications></simple-notifications>
+<app-breadcrumb [title]="'les détails de la réservation'" [items]="['Apps', 'Réservations']" [active_item]="'Details'"></app-breadcrumb>
+<div class="container-fluid">
+  <div>
+    <div class="row product-page-main">
+      <div class="col-xl-7">
+        <div class="card">
+          <div class="card-body">
+            <div #map id="map" class="col-12 map"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-5">
+        <div class="card">
+          <div class="card-body">
+            <div class="project-box">
+              <span class="badge badge-warning badge-pill" *ngIf="booking.status=='En attente'" >{{booking.status}}</span>
+              <span class="badge badge-dark badge-pill" *ngIf="booking.status=='Confirmer'" >{{booking.status}}</span>
+              <span class="badge badge-primary badge-pill" *ngIf="booking.status=='Lancer'" >{{booking.status}}</span>
+              <span class="badge badge-info badge-pill" *ngIf="booking.status=='En cours'" >{{booking.status}}</span>
+              <span class="badge badge-danger badge-pill" *ngIf="booking.status=='Annuler'" >{{booking.status}}</span>
+              <span class="badge badge-success badge-pill" *ngIf="booking.status=='Terminer'" >{{booking.status}}</span>
+              <h3> {{vehicleType.name}}<span class="ml-2"><i class="fa fa-info-circle" ngbPopover="{{vehicleType.tagline}} ({{vehicleType.tag}})" triggers="mouseenter:mouseleave"></i></span></h3>
+              <div class="media" *ngIf="customer.id!=0" (click)="redirectToCustomer(customer.id)" style="cursor: pointer;">
+                <img class="img-30 mr-1 rounded-circle" [src]="host+customer.profileImageUrl" alt="" data-original-title="" title="">
+                <div class="media-body">
+                  <h5>{{customer.firstName}} {{customer.lastName}}</h5>
+                </div>
+              </div>
+              <p>{{booking.note}}</p>
+              <div class="new-update">
+                <div class="activity-timeline">
+                  <div class="media">
+                      <div class="activity-dot-primary"></div>
+                      <div class="media-body"><b>Adresse du départ </b>
+                          <p class="font-roboto">{{fromAdress}}</p>
+                      </div>
+                  </div>
+                  <div class="media">
+                      <div class="activity-dot-secondary"></div>
+                      <div class="media-body"><b>Adresse d'arrivée</b>
+                          <p class="font-roboto">{{toAdress}}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row details">
+                <div class="col-4"><span> <b>Prix</b></span></div>
+                <div class="col-8"><span class="badge badge-light" style="position: relative; right: inherit; top: inherit;"><b>{{booking.price}} MAD </b></span></div>
+                <div class="col-4"><span><b><i class="icofont icofont-map-pins"></i></b></span></div>
+                <div class="col-8"><span class="badge badge-light" style="position: relative; right: inherit; top: inherit;"><b>{{booking.distance}} Km</b></span></div>
+                <div class="col-4"><span><b><i class="icofont icofont-clock-time"></i></b></span></div>
+                <div class="col-8"><span class="badge badge-light" style="position: relative; right: inherit; top: inherit;"><b>{{booking.dateTimeBooking}}</b></span></div>
+                <div class="col-4"><span><b>Paiement</b></span></div>
+                <div class="col-8"><span class="badge badge-light" style="position: relative; right: inherit; top: inherit;"><b>{{booking.paymentType}} </b></span></div>
+              </div>
+
+              <div>
+                <div class="project-status mt-4" *ngIf="booking.status=='En attente'" >
+                  <div class="media mb-0">
+                    <p>10% </p>
+                    <div class="media-body text-right"><span>Terminer</span></div>
+                  </div>
+                  <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-warning progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="project-status mt-4" *ngIf="booking.status=='Confirmer'" >
+                  <div class="media mb-0">
+                    <p>25% </p>
+                    <div class="media-body text-right"><span>Terminer</span></div>
+                  </div>
+                  <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-dark progress-bar-striped" role="progressbar" style="width: 25%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="project-status mt-4" *ngIf="booking.status=='Lancer'" >
+                  <div class="media mb-0">
+                    <p>50% </p>
+                    <div class="media-body text-right"><span>Terminer</span></div>
+                  </div>
+                  <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="project-status mt-4" *ngIf="booking.status=='En cours'" >
+                  <div class="media mb-0">
+                    <p>75% </p>
+                    <div class="media-body text-right"><span>Terminer</span></div>
+                  </div>
+                  <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-info progress-bar-striped" role="progressbar" style="width: 75%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="project-status mt-4" *ngIf="booking.status=='Annuler'" >
+                  <div class="media mb-0">
+                    <p>Annuler </p>
+                    <div class="media-body text-right"><span>Terminer</span></div>
+                  </div>
+                  <div class="progress" style="height: 5px">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="project-status mt-4" *ngIf="booking.status=='Terminer'" >
+                  <div class="media mb-0">
+                    <p>100% </p>
+                  </div>
+                  <div class="progress" style="height: 5px">
+                    <div class="progress-bar-animated bg-success progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-footer" style="padding: 2em !important;" >
+            <div class="text-right" *ngIf="booking.status=='En attente' || booking.status=='Confirmer'">
+              <button class="btn btn-dark m-r-10" type="button" title="" (click)="getOrder()" *ngIf="booking.status=='En attente'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Confirmer</button>
+              <button class="btn btn-primary m-r-10" type="button" title="" (click)="startOrder()" *ngIf="booking.status=='Confirmer'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Lancer</button>
+              <button class="btn btn-info m-r-10" type="button" title="" (click)="letsGo()" *ngIf="booking.status=='Lancer'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Commancer</button>
+              <button class="btn btn-secondary m-r-10" type="button" title="" (click)="notifCustomer()" *ngIf="booking.status=='Lancer'" ><app-feather-icons [icon]="'bell'"></app-feather-icons>&nbsp;&nbsp;Notifier le client</button>
+              <button class="btn btn-success m-r-10" type="button" title="" (click)="complete()" *ngIf="booking.status=='En cours'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Terminer</button>
+            </div>
+            <div *ngIf="rating!=null">
+              <div class="card" *ngIf="booking.status=='Terminer'">
+                <div class="card-body">
+                  <div class="collection-filter-block ">
+                    <ul>
+                      <li>
+                        <div class="media"><i data-feather="user"></i>
+                          <div class="media-body" style="opacity: 1 !important;">
+                            <h5>Evaluation du chauffeur</h5>
+                            <ngb-rating [(rate)]="driverRate" max="5" [readonly]="true" >
+                              <ng-template let-fill="fill" let-index="index">
+                                <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                              </ng-template>
+                            </ngb-rating>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="media"><i data-feather="target"></i>
+                          <div class="media-body" style="opacity: 1 !important;">
+                            <h5>Review</h5>
+                            <div class="row">
+                              <div class="col">
+                                  <div class="form-group mb-0">
+                                      <p  style="opacity: 1;">{{placesText}}</p>
+                                  </div>
+                              </div>
+                          </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- <div class="container-fluid">
+  <div>
+    <div class="row product-page-main">
+      <div class="col-xl-4 xl-cs-55">
+        <div class="card">
+          <div class="card-body">
+            <div #map id="map" class="col-12 map"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5 xl-30">
+        <div class="card">
+          <div class="card-body">
+            <div class="product-page-details">
+            </div>
+            <div class="product-price f-28">{{booking.price.toString()}} MAD
+            </div>
+            <hr>
+            <p><b>Note : </b>{{booking.note}}</p>
+            <hr>
+            <div>
+              <table class="product-page-width">
+                <tbody>
+                  <tr>
+                    <td> <b>Statut &nbsp;&nbsp;&nbsp;</b></td>
+                    <td class="badge badge-warning" *ngIf="booking.status=='En attente'" >{{booking.status}}</td>
+                    <td class="badge badge-primary" *ngIf="booking.status=='Confirmer'" >{{booking.status}}</td>
+                    <td class="badge badge-info" *ngIf="booking.status=='En cours'" >{{booking.status}}</td>
+                    <td class="badge badge-danger" *ngIf="booking.status=='Annuler'" >{{booking.status}}</td>
+                    <td class="badge badge-dark" *ngIf="booking.status=='Terminer'" >{{booking.status}}</td>
+                  </tr>
+                  <tr>
+                    <td> <b>Distance &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</b></td>
+                    <td>{{booking.distance}} KM</td>
+                  </tr>
+                  <tr>
+                    <td> <b>Type de paiement &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</b></td>
+                    <td>{{booking.paymentType}}</td>
+                  </tr>
+                  <tr>
+                    <td> <b>Date &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</b></td>
+                    <td>{{booking.dateTimeBooking}}</td>
+                  </tr>
+                  <tr *ngIf="vehicleType!=null">
+                    <td> <b>Type de voiture &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</b></td>
+                    <td>
+                      <img [alt]="vehicleType.name" src="{{vehicleType.picture}}" class="img-40 m-r-15 rounded-circle align-middle" />
+                      {{vehicleType.name}}</td>
+                  </tr>
+                  <tr *ngIf="driver!=null">
+                    <td> <b>Chauffeur &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;</b></td>
+                    <td>
+                      <img [alt]="driver.userInfo.firstName" src="{{driver.userInfo.profileImageUrl}}" class="img-40 m-r-15 rounded-circle align-middle" />
+                      {{driver.userInfo.firstName}} {{driver.userInfo.lastName}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+                <h6 class="product-title">share it</h6>
+              </div>
+              <div class="col-md-6">
+                <div class="product-icon">
+                  <ul class="product-social">
+                    <li class="d-inline-block"><a href="javascript:void(0);"><i class="fa fa-facebook"></i></a></li>
+                    <li class="d-inline-block"><a href="javascript:void(0);"><i class="fa fa-google-plus"></i></a></li>
+                    <li class="d-inline-block"><a href="javascript:void(0);"><i class="fa fa-twitter"></i></a></li>
+                    <li class="d-inline-block"><a href="javascript:void(0);"><i class="fa fa-instagram"></i></a></li>
+                    <li class="d-inline-block"><a href="javascript:void(0);"><i class="fa fa-rss"></i></a></li>
+                  </ul>
+                  <form class="d-inline-block f-right"></form>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="m-t-15">
+              <button class="btn btn-dark m-r-10" type="button" title="" (click)="getOrder()" *ngIf="booking.status=='En attente'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Confirmer</button>
+              <button class="btn btn-primary m-r-10" type="button" title="" (click)="setOrder('Lancer')" *ngIf="booking.status=='Confirmer'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Lancer</button>
+              <button class="btn btn-info m-r-10" type="button" title="" (click)="setOrder('En cours')" *ngIf="booking.status=='Lancer'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Commancer</button>
+              <button class="btn btn-success m-r-10" type="button" title="" (click)="complete()" *ngIf="booking.status=='En cours'" ><i class="icofont icofont-ui-check"></i> &nbsp;&nbsp;Terminer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 xl-cs-15">
+        <div class="card">
+          <div class="card-header card-no-border">
+            <h5>Suivre la trace</h5>
+        </div>
+        <div class="card-body new-update pt-0">
+            <div class="activity-timeline" >
+                <div class="media">
+                    <div class="activity-line"></div>
+                    <div class="activity-dot-primary" [class]="booking.status=='En attente' ? 'circle-dot-primary' : ''"></div>
+                    <div class="media-body"><span>En attente</span>
+                    </div>
+                </div>
+                <div class="media" [class]="booking.status=='En attente' ? 'disabled' : ''">
+                    <div class="activity-dot-primary" [class]="booking.status=='Confirmer' ? 'circle-dot-primary' : ''"></div>
+                    <div class="media-body"><span>Confirmer</span>
+                    </div>
+                </div>
+                <div class="media" [class]="booking.status=='Confirmer' || booking.status=='En attente' ? 'disabled' : ''">
+                    <div class="activity-dot-primary" [class]="booking.status=='En cours' ? 'circle-dot-primary' : ''"></div>
+                    <div class="media-body"><span>En cours</span>
+                    </div>
+                </div>
+                <div class="media" [class]="booking.status=='En cours' || booking.status=='Confirmer' || booking.status=='En attente' ? 'disabled' : ''">
+                    <div class="activity-dot-primary" [class]="booking.status=='Terminer' ? 'circle-dot-primary' : ''"></div>
+                    <div class="media-body disabled"><span>Terminer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div> -->

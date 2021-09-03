@@ -1,0 +1,373 @@
+<simple-notifications></simple-notifications>
+<app-breadcrumb [title]="'profil du chauffeur'" [items]="['Dashboard']" [active_item]="'profil'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="user-profile">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card hovercard text-center">
+          <div class="cardheader"></div>
+          <div class="user-image">
+            <div class="avatar"><img alt="" [src]="host+user.profileImageUrl"></div>
+            <div class="icon-wrapper"><i class="icofont icofont-pencil-alt-5" (click)="open(content)"></i></div>
+          </div>
+          <div class="info">
+            <div class="row">
+              <div class="col-sm-6 col-lg-4 order-sm-1 order-xl-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="ttl-info text-left">
+                      <h6><i class="fa fa-envelope"></i>   Email</h6><span><b>{{user.email}}</b></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="ttl-info text-left">
+                      <h6><i class="fa fa-user"></i>   Nom d'utilisateur</h6><span><b>{{user.username}}</b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-4 order-sm-0 order-xl-1">
+                <div class="user-designation">
+                  <div class="title"><a target="_blank" href="">{{user.firstName}} {{user.lastName}}</a></div>
+                  <div class="desc mt-2">{{user.role.replace("ROLE_","")}}</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-4 order-sm-2 order-xl-2">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="ttl-info text-left">
+                      <h6><i class="fa fa-calendar"></i>   date de la dernière connexion</h6><span><b>{{user.lastLoginDateDisplay | date: 'MM-dd-yyyy HH:mm'}}</b></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="ttl-info text-left">
+                      <h6><i class="fa fa-phone"></i>   Téléphone</h6><span><b>{{user.phone}}</b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="social-media">
+              <ul class="list-inline">
+                <li class="list-inline-item"><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
+                <li class="list-inline-item"><a href="javascript:void(0)"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="filled" style="margin-top: 15px; margin-bottom: 0px;">{{rat/countRat}} / 5</h3>
+              <ngb-rating [(rate)]="rat/countRat" max="5" [readonly]="true" >
+                <ng-template let-fill="fill" let-index="index">
+                  <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                </ng-template>
+              </ngb-rating>
+            </div>
+            <hr>
+            <div class="follow">
+              <div class="row">
+                <div class="col-6 text-md-right border-right">
+                  <div class="follow-num" [CountTo]="user.profit" [from]="0" [duration]="5"></div><span>Solde total actuel en MAD</span>
+                </div>
+                <div class="col-6 text-md-left">
+                  <div class="follow-num counter" [CountTo]="bookingShow.length" [from]="0" [duration]="5"></div>
+                  <span>Réservation obtenue</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 row" style="margin: 20px 0px;">
+        <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+          <div class="login-main" style="width: 100%; padding: 50px;">
+            <form class="needs-validation theme-form">
+              <div class="row">
+                <div class="col-sm-12 col-xl-6">
+                  <div class="row mt-3 mb-3">
+                    <div class="col-5">
+                      <h4 class="text-muted">Information personnelle</h4>
+                    </div>
+                    <div class="col-7 ligne mt-1"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label pt-0">Votre Nom</label>
+                    <div class="form-row">
+                      <div class="col-6">
+                        <input class="form-control" type="text" required="" placeholder="Prenom" name="fristName" [(ngModel)]="user.firstName">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <div class="col-6">
+                        <input class="form-control" type="text" required="" placeholder="Nom" name="lastName" [(ngModel)]="user.lastName">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label">Email</label>
+                    <input class="form-control" type="email" required="" placeholder="app@yourmail.com" name="email" email [(ngModel)]="user.email">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label">Télephone</label>
+                    <input class="form-control" type="tel" required="" placeholder="0612345678" name="phone" [(ngModel)]="user.phone">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div>
+                  <div class="form-group text-right">
+                    <button class="btn btn-primary mr-1" (click)="submit()">Modifier</button>
+                  </div>
+                </div>
+                <div class="col-sm-12 col-xl-6">
+                  <div class="row mt-3 mb-3">
+                    <div class="col-5">
+                      <h4 class="text-muted">Mot de passe</h4>
+                    </div>
+                    <div class="col-7 ligne mt-1"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label">Mot de passe</label>
+                    <input class="form-control" [type]="showPass ? 'text' : 'password'" name="login[password]" required="" [(ngModel)]="pass" placeholder="*********">
+                    <div class="show-hide" (click)="showPassword()" *ngIf="!showPass"><span class="show"></span></div>
+                    <div class="show-hide" (click)="showPassword()" *ngIf="showPass"><span class="Hide"></span></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label">Nouveau mot de passe</label>
+                    <input class="form-control" [type]="showPass ? 'text' : 'password'" name="login[password]" required="" [(ngModel)]="newPass" placeholder="*********">
+                    <div class="show-hide" (click)="showPassword()" *ngIf="!showPass"><span class="show"></span></div>
+                    <div class="show-hide" (click)="showPassword()" *ngIf="showPass"><span class="Hide"></span></div>
+                  </div>
+                  <div class="form-group text-right">
+                    <button class="btn btn-primary" (click)="onRsetPassword()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 row" style="margin: 20px 0px;">
+        <div class="card">
+          <div class="col-sm-12 ">
+            <div class="card" *ngFor="let item of dataRating">
+              <div class="profile-img-style">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <div class="media"><img class="img-thumbnail rounded-circle mr-3" [src]="host+item.user.profileImageUrl"
+                        alt="Generic placeholder image">
+                      <div class="media-body align-self-center">
+                        <h5 class="mt-0 user-name">{{item.user.firstName}} {{item.user.lastName}}</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 align-self-center">
+                    <div class="float-sm-right"><small></small></div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-lg-12 col-xl-4">
+
+                    <div class="like-comment mt-4 like-comment-sm-mb">
+                      <ul class="list-inline">
+                        <li class="list-inline-item border-right pr-3">
+                          <ngb-rating [(rate)]="item.rating.rating" max="5" [readonly]="true" >
+                            <ng-template let-fill="fill" let-index="index">
+                              <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                            </ng-template>
+                          </ngb-rating>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <p>{{item.rating.review}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 row" style="margin: 20px 0px;">
+        <div class="card" style="width: 100%;">
+          <div class="card-header">
+            <h5>Mes reservation</h5>
+          </div>
+          <div class="card-body">
+            <div class="scroll-bar-wrap">
+              <div class="scrollbar-margins large-margin scroll-demo p-5" [perfectScrollbar]="config" style="height: 900px;">
+
+                <div class="tab-content" id="top-tabContent">
+                  <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+                    <div class="row">
+                      <div class="col-xl-4 col-lg-6" *ngFor="let item of filtredData" style="margin: 15px auto;">
+                        <div class="project-box" (click)="redirect(item.booking.id)" style="cursor: pointer;">
+                          <span class="badge badge-warning badge-pill" *ngIf="item.booking.status=='En attente'" >{{item.booking.status}}</span>
+                          <span class="badge badge-dark badge-pill" *ngIf="item.booking.status=='Confirmer'" >{{item.booking.status}}</span>
+                          <span class="badge badge-primary badge-pill" *ngIf="item.booking.status=='Lancer'" >{{item.booking.status}}</span>
+                          <span class="badge badge-info badge-pill" *ngIf="item.booking.status=='En cours'" >{{item.booking.status}}</span>
+                          <span class="badge badge-danger badge-pill" *ngIf="item.booking.status=='Annuler'" >{{item.booking.status}}</span>
+                          <span class="badge badge-success badge-pill" *ngIf="item.booking.status=='Terminer'" >{{item.booking.status}}</span>
+                          <h3>{{item.vehicleType.name}}</h3>
+                          <div class="media" *ngIf="item.customer.id!=0"><img class="img-20 mr-1 rounded-circle" [src]="host+item.customer.profileImageUrl" alt="" data-original-title="" title="">
+                            <div class="media-body">
+                              <p>{{customer.firstName}} {{customer.lastName}}</p>
+                            </div>
+                          </div>
+                          <div class="new-update">
+                            <div class="activity-timeline">
+                              <div class="media">
+                                  <div class="activity-dot-primary"></div>
+                                  <div class="media-body"><b>Adresse du départ </b>
+                                      <p class="font-roboto">{{item.from_adress}}</p>
+                                  </div>
+                              </div>
+                              <div class="media">
+                                  <div class="activity-dot-secondary"></div>
+                                  <div class="media-body"><b>Adresse d'arrivée</b>
+                                      <p class="font-roboto">{{item.to_adress}}</p>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row details">
+                            <div class="col-3"> <span>Prix</span></div>
+                            <div class="col-9 text-primary"><b>{{item.booking.price}} MAD </b></div>
+                            <div class="col-3"> <span><i class="icofont icofont-map-pins"></i></span></div>
+                            <div class="col-9 text-primary"><b>{{item.booking.distance}} Km</b></div>
+                            <div class="col-3"><span><i class="icofont icofont-clock-time"></i></span></div>
+                            <div class="col-9 text-primary"><b>{{item.booking.dateTimeBooking}}</b></div>
+                          </div>
+                          <div class="project-status mt-4" *ngIf="item.booking.status=='En attente'" >
+                            <div class="media mb-0">
+                              <p>10% </p>
+                              <div class="media-body text-right"><span>Terminer</span></div>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                              <div class="progress-bar-animated bg-warning progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="project-status mt-4" *ngIf="item.booking.status=='Confirmer'" >
+                            <div class="media mb-0">
+                              <p>25% </p>
+                              <div class="media-body text-right"><span>Terminer</span></div>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                              <div class="progress-bar-animated bg-dark progress-bar-striped" role="progressbar" style="width: 25%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="project-status mt-4" *ngIf="item.booking.status=='Lancer'" >
+                            <div class="media mb-0">
+                              <p>50% </p>
+                              <div class="media-body text-right"><span>Terminer</span></div>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                              <div class="progress-bar-animated bg-primary progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="project-status mt-4" *ngIf="item.booking.status=='En cours'" >
+                            <div class="media mb-0">
+                              <p>75% </p>
+                              <div class="media-body text-right"><span>Terminer</span></div>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                              <div class="progress-bar-animated bg-info progress-bar-striped" role="progressbar" style="width: 75%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="project-status mt-4" *ngIf="item.booking.status=='Annuler'" >
+                            <div class="media mb-0">
+                              <p>Annuler </p>
+                              <div class="media-body text-right"><span>Terminer</span></div>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                              <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                          <div class="project-status mt-4" *ngIf="item.booking.status=='Terminer'" >
+                            <div class="media mb-0">
+                              <p>100% </p>
+                            </div>
+                            <div class="progress" style="height: 5px">
+                              <div class="progress-bar-animated bg-success progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Photo du profil</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="row ">
+          <img class="img shadow shadow-showcase" alt="" src="{{host+user.profileImageUrl}}" style="margin: 5px auto;">
+        </div>
+        <div class="row m-t-5">
+          <label for="imageFileUp">
+            <div class="dropzone dropzone-primary dz-single dz-clickable" style="padding: 0px;">
+              <div class="dz-message needsclick">
+                <i class="icon-cloud-up"></i>
+                <h6>Drop files here or click to upload.</h6>
+                <span>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+              </div>
+            </div>
+          </label>
+          <input type="file" id="imageFileUp" class="btn btn-light mt-3" (change)="fileChangeEvent($event)" value="" style="display: none;"/>
+        </div>
+        <div *ngIf="show==true">
+          <div class="row" style="margin: 15px auto;">
+            <div class="text-center col-md-8" style="margin: 0px auto;">
+                <h5>Crop Image</h5>
+                <image-cropper class="img shadow shadow-showcase"
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 4"
+                [resizeToWidth]="256"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"></image-cropper>
+            </div>
+          </div>
+          <div class="row" style="margin: 5px auto;">
+            <div class="text-center col-md-8" style="margin: 0px auto;">
+              <h5>Aperçu</h5>
+              <img class="img-200 shadow shadow-showcase" [src]="croppedImage" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <form class="form-inline theme-form mt-3 mb-0">
+      <button class="btn btn-primary mr-1" type="submit" (click)="modal.close('Save click')" *ngIf="show==true">Submit</button>
+      <button class="btn btn-secondary"  (click)="modal.dismiss('Cross click')">Cancel</button>
+    </form>
+  </div>
+</ng-template>
+
+

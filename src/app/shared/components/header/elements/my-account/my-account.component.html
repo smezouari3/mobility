@@ -1,0 +1,14 @@
+<div class="media profile-media" (click)="menuToggle()">
+  <img class="b-r-10" width="32px" style="vertical-align: middle" [src]="host+authUser.profileImageUrl" alt="">
+  <div class="media-body"><span>{{authUser.firstName}} {{authUser.lastName}}</span>
+    <p class="mb-0 font-roboto">{{authUser.role.replace("ROLE_","")}} <i class="middle fa fa-angle-down"></i></p>
+  </div>
+</div>
+<ul class="profile-dropdown onhover-show-div" [class]="menu ? 'active' : ''">
+  <li><a routerLink="/profil"><app-feather-icons [icon]="'user'"></app-feather-icons><span>Profil </span></a></li>
+  <!-- <li><a href="#"><app-feather-icons [icon]="'mail'"></app-feather-icons><span>Inbox</span></a></li> -->
+  <!-- <li><a href="#"><app-feather-icons [icon]="'file-text'"></app-feather-icons><span>Taskboard</span></a></li> -->
+  <li><a href="#"><app-feather-icons [icon]="'settings'"></app-feather-icons><span>Paramètres</span></a></li>
+  <li ><a (click)="logout()"><app-feather-icons [icon]="'log-out'"></app-feather-icons><span>Log out</span></a></li>
+
+</ul>

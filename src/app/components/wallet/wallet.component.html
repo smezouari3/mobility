@@ -1,0 +1,222 @@
+<app-breadcrumb [title]="'Porte-Monnaie'" [items]="['Apps']" [active_item]="'Porte-Monnaie'"></app-breadcrumb>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="invoice">
+            <div>
+              <div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="media">
+                      <div class="media-left"><img class="media-object rounded-circle img-60" [src]="host+authUser.profileImageUrl" alt=""></div>
+                      <div class="media-body m-l-20">
+                        <h4 class="media-heading">{{authUser.firstName}} {{authUser.lastName}}</h4>
+                        <p>{{authUser.email}}<br><span>{{authUser.phone}}</span></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="text-md-right">
+                      <h3>Solde : <span class="counter">{{authUser.profit}} </span> MAD</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-lg-3 mt-3">
+                  <ng-select [items]="periode" placeholder="Select" class="js-example-placeholder-multiple" [(ngModel)]="selectedPeriode" (change)="changePeriode($event)"></ng-select>
+                </div>
+                <div class="col-lg-9 text-right mt-3">
+                  <button class="btn btn-square btn-primary ml-3 text-right" *ngIf="authUser.driver==null" (click)="openSend(send)">Envoyer des fonds</button>
+                  <button class="btn btn-square btn-primary ml-3 text-right" *ngIf="authUser.driver==null" (click)="openAdd(add)">Ajouter des fonds</button>
+                  <button class="btn btn-square btn-primary ml-3 text-right" *ngIf="authUser.driver!=null" (click)="openDemande(demande)">Demander un retrait</button>
+                </div>
+              </div>
+              <div>
+                <div class="table-responsive invoice-table" id="table">
+                  <table class="table table-bordered table-striped">
+                    <tbody>
+                      <tr>
+                        <td class="item">
+                          <h6 class="p-2 mb-0">Description de la transaction</h6>
+                        </td>
+                        <td class="Hours">
+                          <h6 class="p-2 mb-0">Date</h6>
+                        </td>
+                        <td class="Rate">
+                          <h6 class="p-2 mb-0">Montant</h6>
+                        </td>
+
+                      </tr>
+                      <tr *ngFor="let wallet of filtredWallets">
+                        <td>
+                          <p class="m-0">{{wallet.transactionDescription.split('|')[0]}}
+
+                            <span *ngIf="wallet.transactionDescription.split('|')[1]=='booking' && authUser.driver==null">
+                              <a routerLink="/booking/{{wallet.transactionDescription.split('|')[2]}}" class="text-dark"> <i class="icofont icofont-external-link"></i> </a>
+                            </span>
+
+                            <span *ngIf="wallet.transactionDescription.split('|')[1]=='booking' && authUser.driver!=null">
+                              <a routerLink="/get-booking/{{wallet.transactionDescription.split('|')[2]}}" class="text-dark"> <i class="icofont icofont-external-link"></i> </a>
+                            </span>
+
+                          </p>
+                        </td>
+                        <td>
+                          <p class="itemtext">{{wallet.dateTimeTransaction}}</p>
+                        </td>
+                        <td>
+                          <p class="itemtext text-success" *ngIf="wallet.amount>=0"><b>{{wallet.amount}} MAD</b></p>
+                          <p class="itemtext text-danger" *ngIf="wallet.amount<0"><b>{{wallet.amount}} MAD</b></p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- <div class="row">
+                  <div class="col-md-8">
+                    <div>
+                      <p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices.</p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <form class="text-right">
+                      <input type="image" src="assets/images/other-images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    </form>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="col-sm-12 text-center mt-3">
+              <button class="btn btn btn-primary mr-2" type="button" onclick="myFunction()">Print</button>
+              <button class="btn btn-secondary" type="button">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #send let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Send</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 50px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitResult()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Email du bénéficiaire</label>
+                <input class="form-control" type="email" required="" placeholder="app@yourmail.com" name="email" email [(ngModel)]="email">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Montant</label>
+                <input class="form-control" type="text" required="" placeholder="" name="montant" [(ngModel)]="montant">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Transféré</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Annuler</button>
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitResult2()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Montant</label>
+                <input class="form-control" type="text" required="" placeholder="" name="montant" [(ngModel)]="montant">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Verser</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+              <br>
+              <input type="image" style="margin-top: 10px;" src="assets/images/other-images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #demande let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Retrait</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitResult3()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Montant</label>
+                <input class="form-control" type="text" required="" placeholder="" name="montant" [(ngModel)]="montantRetrait">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Méthode de virement</label>
+                <ng-select [items]="transactionMethode" placeholder="Select" class="js-example-placeholder-multiple" [(ngModel)]="selectedTransactionMethode"></ng-select>
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Retrait</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

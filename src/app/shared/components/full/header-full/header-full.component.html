@@ -1,0 +1,54 @@
+<!-- Page Header Start-->
+<div class="page-header ml-0" [class.close_icon]="navServices.collapseSidebar" style="width: 100%;">
+  <div class="header-wrapper row m-0">
+
+    <!-- <app-search></app-search> -->
+
+    <div class="header-logo-wrapper">
+      <div class="logo-wrapper">
+        <!-- <a routerLink='/'>
+          <img class="img-fluid for-light" src="assets/images/logo/logo.png" alt="">
+          <img class="img-fluid for-dark" src="assets/images/logo/logo_dark.png" alt="">
+        </a> -->
+      </div>
+      <!-- <div class="toggle-sidebar" (click)="sidebarToggle()">
+        <app-feather-icons [icon]="'grid'" class="status_toggle middle"></app-feather-icons>
+      </div> -->
+    </div>
+    <div class="left-header col horizontal-wrapper pl-0">
+      <a routerLink='/'>
+        <img class="img-fluid for-light" src="assets/images/logo/logo.png" style="width: 70px;" alt="">
+        <img class="img-fluid for-dark" src="assets/images/logo/logo_dark.png"  style="width: 70px;" alt="">
+      </a>
+      <!-- <app-mega-menu></app-mega-menu> -->
+    </div>
+    <div class="nav-right col-8 pull-right right-header p-0">
+      <ul class="nav-menus" style="margin-right: 0 !important;">
+        <li class="language-nav" (click)="languageToggle()">
+          <app-languages></app-languages>
+        </li>
+        <li class="onhover-dropdown" *ngIf="logged==true">
+          <app-notification></app-notification>
+        </li>
+        <!-- <li>
+          <div class="mode" (click)="layoutToggle()">
+            <i class="fa fa-moon-o" *ngIf="!dark"></i>
+            <i class="fa fa-lightbulb-o" *ngIf="dark"></i>
+          </div>
+        </li> -->
+        <!-- <li class="onhover-dropdown">
+          <app-message-box></app-message-box>
+        </li> -->
+        <li class="maximize">
+          <a class="text-dark" href="javascript:void(0)" (click)="toggleFullScreen()">
+            <app-feather-icons [icon]="'maximize'"></app-feather-icons>
+          </a>
+        </li>
+        <li class="onhover-dropdown" >
+           <app-the-account></app-the-account>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!-- Page Header Ends -->

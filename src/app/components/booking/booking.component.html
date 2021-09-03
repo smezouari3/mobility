@@ -1,0 +1,107 @@
+<simple-notifications></simple-notifications>
+<div class="container-fluid search-page">
+  <button class="custom-btn" type="submit" (click)="submits()"><span> Notif</span></button>
+
+  <div class="row">
+
+    <!-- <div class="col-sm-12 col-lg-8 col-xl-8 xl-60 col-md-12 box-col-6 m-t-50 m-b-50" [class]="count==2 ? '' : 'col-lg-12 col-xl-12 xl-60 box-col-12'"> -->
+    <div class="col-sm-12 col-md-12 m-t-50 m-b-50" [class]="count==2 ? 'col-lg-8 col-xl-8 xl-60 box-col-12' : 'col-lg-12 col-xl-12 xl-100 box-col-12'">
+      <div class="card"  style="min-height:500px">
+        <div class="card-header  bg-light-primary pb-0">
+          <form class="theme-form">
+            <div class="input-group m-0">
+              <input type="text"
+              [(ngModel)]="placesText"
+              #placesRef="ngx-places"
+              placeholder="Find location"
+              class="form-control-plaintext" type="search"
+              ngx-google-places-autocomplete
+              (onAddressChange)="handleAddressChange($event)"
+              style="border-radius: 0px;"/>
+            </div>
+            <div class="row" style="margin-top: 10px; margin-bottom: 10px; margin-left: 40%;">
+              <button type="button" class="btn btn-outline-primary btn-pill btn-xs ml-12 mr-3" (click)="deleteMarkerFrom()" ><i class="icon-close"></i>&nbsp;Source</button>
+              <button type="button" class="btn btn-outline-primary btn-pill btn-xs mr-3" (click)="panCurrentLocation()"><i class="icofont icofont-social-google-map"></i></button>
+              <button type="button" class="btn btn-outline-primary btn-pill btn-xs" (click)="deleteMarkerTo()"><i class="icon-close"></i>&nbsp;Destination</button>
+            </div>
+          </form>
+        </div>
+        <div class="contact-form card-body" style="min-height:500px">
+          <div #map id="map" class="col-12"></div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-12 col-lg-4 col-xl-4 xl-40 col-md-12 box-col-6 m-t-50 " *ngIf="city && count==2"> -->
+    <div class="col-sm-12 col-lg-4 col-xl-4 xl-40 col-md-12 box-col-6 m-t-50 " *ngIf="city && count==2">
+      <div class="card height-equal">
+        <div class="card-body">
+          <div class="tab-content" id="top-tabContent" *ngIf="city && count==2">
+            <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
+              <div class="row" *ngFor="let vehicleType of city.vehicleTypes" style="margin-bottom: 15px;">
+                <div class="col-12" *ngIf="vehicleType.enabled==true">
+                  <div class="project-box" style="padding-bottom: 0px !important; cursor: pointer;" (click)="select(vehicleType.id)" [class]="vehicleType.id==vehicleTypeId ? 'shadow-lg p-25 shadow-showcase' : ''"><span class="badge badge-primary">{{vehicleType.vehicleCategorie.name}}</span>
+                    <div class="customers">
+                      <ul ngbPopover="{{vehicleType.tagline}} ({{vehicleType.tag}})"
+                      triggers="mouseenter:mouseleave">
+                        <li class="d-inline-block"><img class="img-60 rounded-circle" [src]="host+vehicleType.picture" alt="" data-original-title="" title=""></li>
+                        <li class="d-inline-block ml-2">
+                          <h5>{{vehicleType.name}}<span class="ml-2"><i class="fa fa-info-circle" ></i></span></h5>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-3"><span>Prix </span></div>
+                      <div class="col-9 text-dark">
+                        <p><b>{{vehicleType.price * distanceAmount}} MAD | {{vehicleType.point * distanceAmount}} Points</b></p>
+                      </div>
+                      <div class="col-3"> <span><i class="icofont icofont-map-pins"></i></span></div>
+                      <div class="col-9 text-dark"><p><b>{{distanceAmount}} Km</b></p></div>
+                      <div class="col-3"> <span><i class="icofont icofont-clock-time"></i></span></div>
+                      <div class="col-9 text-dark"><p><b>{{time}}</b></p></div>
+                    </div>
+                    <div class="media">
+                      <div class="media-body">
+                        <h6 class="text-dark mb-0">Get {{(point * (vehicleType.price * distanceAmount)).toFixed(2)}} Points</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="custom-datepicker custom-datepicker-dropdown">
+              <div class="form-group row mb-0 align-content-center" >
+                <div class="input-group col-xl-8 align-content-center">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateBooking" ngbDatepicker
+                  [footerTemplate]="footerTemplate" #f="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn calendar" (click)="f.toggle()" type="button"><i
+                        class="fa fa-calendar"></i></button>
+                  </div>
+                </div>
+                <div class="col-xl-4">
+                  <ngb-timepicker [(ngModel)]="timeBooking" class="time-picker-custom"></ngb-timepicker>
+                </div>
+                <div class="col-12">
+                  <textarea class="form-control" id="exampleFormControlTextarea4" placeholder="Si vous avez une note pour le chauffeur" rows="3" [(ngModel)]="note"></textarea>
+                </div>
+                <div class="col-12">
+                  <div class="col-form-label">Type de paiement</div>
+                  <ng-select [items]="paymentTypes" placeholder="Select"
+                    class="js-example-placeholder-multiple" [(ngModel)]="selectedPayment"></ng-select>
+                </div>
+              </div>
+            </div>
+            <ng-template #footerTemplate>
+              <hr class="my-0">
+              <button class="btn btn-primary btn-sm m-2 float-left" (click)="dateBooking = dateNow; f.close()">Today</button>
+              <button class="btn btn-secondary btn-sm m-2 float-right" (click)="f.close()">Close</button>
+            </ng-template>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button class="custom-btn" type="submit" (click)="submit()"><span> Confimer</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

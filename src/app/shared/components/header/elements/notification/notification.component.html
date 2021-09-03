@@ -1,0 +1,24 @@
+<div class="" (click)="toggleNotificationMobile()" [class]="count==0 ? '' : 'notification-box'">
+  <app-feather-icons [icon]="'bell'"></app-feather-icons>
+  <span class="badge badge-pill badge-secondary" [class]="count==0 ? 'disp-none' : ''">{{count}}</span>
+</div>
+<ul class="notification-dropdown onhover-show-div" [class.active]="openNotification">
+  <li>
+    <app-feather-icons [icon]="'bell'"></app-feather-icons>
+    <h6 class="f-18 mb-0">Notitications</h6>
+  </li>
+  <div  *ngFor="let notification of notifications">
+    <div *ngIf="notification.userId==authUser.id">
+      <li class="item">
+        <p class="itemp" (click)="ShowContent(notification.content.split('|')[1],notification.id)">
+          <i class="fa fa-circle-o mr-3 font-primary"></i>{{notification.content.split('|')[0]}} <span class="pull-right">{{notification.dateTimeBooking}}</span>
+        </p>
+      </li>
+    </div>
+  </div>
+  <li style="cursor: pointer;" [class]="count==0 ? 'disp-none' : ''">
+    <p class="btn btn-primary" (click)="clearAll()">Supprimer toutes les notifications</p>
+  </li>
+
+
+</ul>

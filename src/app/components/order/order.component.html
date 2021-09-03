@@ -1,0 +1,125 @@
+<simple-notifications></simple-notifications>
+<div class="container-fluid search-page">
+  <div class="row">
+    <div class="col-sm-12 col-lg-8 col-xl-8 xl-60 col-md-12 box-col-6 m-t-50 m-b-50" [class]="count==2 ? '' : 'col-lg-12 col-xl-12 xl-60 box-col-12'">
+    <!-- <div class="col-sm-12 col-lg-8 col-xl-8 xl-60 col-md-12 box-col-6 m-t-50 m-b-50"> -->
+      <div class="card"  style="height:100%">
+        <div class="card-header  bg-light-primary">
+          <form class="theme-form">
+            <div class="input-group m-0">
+              <input type="text"
+              [(ngModel)]="placesText"
+              #placesRef="ngx-places"
+              placeholder="Find location"
+              class="form-control-plaintext" type="search"
+              ngx-google-places-autocomplete
+              (onAddressChange)="handleAddressChange($event)"/>
+            </div>
+          </form>
+        </div>
+        <div class="contact-form card-body">
+          <div #map id="map" class="col-12"></div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group btn-group-pill delete-markers" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-light" (click)="deleteMarkerFrom()">Delete from destination</button>
+            <button type="button" class="btn btn-light" (click)="panCurrentLocation()">Pan to Current Location</button>
+            <button type="button" class="btn btn-light" (click)="deleteMarkerTo()">Delete to destination</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-12 col-lg-4 col-xl-4 xl-40 col-md-12 box-col-6 m-t-50 "  [class]="count==2 ? '' : 'disp-none'"> -->
+    <div class="col-sm-12 col-lg-4 col-xl-4 xl-40 col-md-12 box-col-6 m-t-50 ">
+      <div class="card height-equal">
+        <div class="card-header">
+          <h5>Horizontal Style</h5><span>For Create inline megaoption add <code>.mega-horizontal</code> class in form
+            tag</span>
+        </div>
+        <div class="card-body">
+          <!-- <form class="mega-horizontal  custom-datepicker custom-datepicker-dropdown">
+            <div class="row" *ngFor="let vehicleCategory of vehicleCategories">
+              <div *ngIf="vehicleCategory.enabled == true">
+                <div class="col-sm-12 m-b-3">
+                  <p class="mega-title">{{vehicleCategory.name}}</p>
+                </div>
+                <div  class="col-sm-12" *ngFor="let vehicleType of vehicleCategory.vehicleTypes">
+                  <div class="row" *ngIf="vehicleType.enabled == true">
+                    <div class="card">
+                      <div class="media p-20 radio radio-primary mr-3 ml-2">
+                        <div class="radio radio-primary mr-3 ml-2">
+                          <input id="radio{{vehicleType.id}}" type="radio" name="radio1" value="{{vehicleType.id}}" [(ngModel)]="vehicleTypeId">
+                          <label for="radio{{vehicleType.id}}"><img class="img-40 img-fluid m-r-20" [src]="vehicleType.picture" alt=""></label>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="mt-0 mega-title-badge">{{vehicleType.name}}<span class="badge badge-primary pull-right digits">{{vehicleType.price * distanceAmount}} DH</span></h6>
+                          <p>{{vehicleType.tagline}} ({{vehicleType.tag}})</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row mb-0" >
+              <div class="input-group col-12">
+                <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateBooking" ngbDatepicker
+                  [footerTemplate]="footerTemplate" #f="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn calendar" (click)="f.toggle()" type="button"><i
+                      class="fa fa-calendar"></i></button>
+                </div>
+              </div>
+              <div class="col-12">
+                <ngb-timepicker [(ngModel)]="timeBooking" class="time-picker-custom"></ngb-timepicker>
+              </div>
+            </div>
+
+            <ng-template #footerTemplate>
+              <hr class="my-0">
+              <button class="btn btn-primary btn-sm m-2 float-left" (click)="model = today; f.close()">Today</button>
+              <button class="btn btn-secondary btn-sm m-2 float-right" (click)="f.close()">Close</button>
+            </ng-template>
+          </form> -->
+
+
+          <div *ngIf="city && count==2">
+            <div class="row" *ngFor="let vehicleType of city.vehicleTypes">
+              <div class="col-sm-12 col-xl-12">
+                <div class="ribbon-wrapper-right card shadow-lg p-25 shadow-showcase text-center" (click)="select(vehicleType.id)" [class]="vehicleType.id==vehicleTypeId ? 'b-info' : ''" style="cursor: pointer;">
+                  <div class="card-body p-0">
+                    <div class="ribbon ribbon-bookmark ribbon-right ribbon-primary"> {{vehicleType.price * distanceAmount}} MAD</div>
+                    <div class="ribbon ribbon-clip-bottom ribbon-secondary">{{vehicleType.vehicleCategorie.name}}</div>
+                    <img class="img-40 img-fluid m-b-20" [src]="vehicleType.picture" alt="">
+                    <div class="m-b-30">
+                      <h6 class="mt-0 mega-title-badge">{{vehicleType.name}}<span class="badge badge-primary pull-right digits"></span></h6>
+                      <p>{{vehicleType.tagline}} ({{vehicleType.tag}})</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="card-footer text-right">
+          <button class="custom-btn" type="submit" (click)="submit()"><span> Submit</span></button>
+          <!-- <button class="btn btn-light" type="submit">Cancel</button> -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="text-align:center; margin-top: 150px;">
+
+  <h1 style="font-size: 4em;">
+
+      Notifications : <span style="color: red;">+{{ notifications }}</span>
+
+  </h1>
+
+</div>

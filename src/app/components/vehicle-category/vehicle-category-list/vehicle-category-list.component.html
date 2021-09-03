@@ -1,0 +1,170 @@
+
+
+
+<div class="card-header text-right">
+  <button class="custom-btn" (click)="open(add)">Ajouter</button>
+</div>
+<div class="card-body">
+  <p-table #dt [value]="records" [(selection)]="selectedRecords" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+[rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+[paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[filterDelay]="0" [globalFilterFields]="['id','name','enabled']">
+
+<ng-template pTemplate="caption">
+  <div class="table-header">
+      <span class="p-input-icon-left">
+          <input pInputText type="text" class="form-control" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+      </span>
+  </div>
+</ng-template>
+
+<ng-template pTemplate="header">
+  <tr>
+    <!-- <th style="width: 3rem"></th> -->
+    <!-- ******************************************************************************************************************************************* -->
+    <th style="width: 3rem"></th>
+    <th pSortableColumn="id">
+      <div class="p-d-flex p-jc-between p-ai-center">
+        ID
+        <p-sortIcon field="id"></p-sortIcon>
+        <p-columnFilter type="text" field="id" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="name">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        Nom
+        <p-sortIcon field="name"></p-sortIcon>
+        <p-columnFilter type="text" field="name" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th pSortableColumn="enabled">
+      <div class="p-d-flex p-jc-between p-ai-center" translate="">
+        Activer
+        <p-sortIcon field="enabled"></p-sortIcon>
+        <p-columnFilter type="text" field="enabled" display="menu" class="p-ml-auto"></p-columnFilter>
+      </div>
+    </th>
+    <th></th>
+  </tr>
+</ng-template>
+
+<ng-template pTemplate="body" let-record let-expanded="expanded">
+  <tr class="p-selectable-row">
+    <td></td>
+    <td> {{record.id}}</td>
+    <td> {{record.name}} </td>
+    <td>
+      <span class="badge badge-success" *ngIf="record.enabled==true">Activer</span>
+      <span class="badge badge-danger" *ngIf="record.enabled==false">Desactiver</span>
+    </td>
+    <td>
+      <div class="btn-group">
+        <button class="btn btn-primary" (click)="editRecord(record); open(edit)"><i class="icofont icofont-ui-edit"></i></button>
+        <button class="btn btn-secondary" (click)="deleteRecord(record)"><i class="icofont icofont-ui-delete"></i></button>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+
+<ng-template pTemplate="emptymessage">
+  <tr>
+      <td colspan="8" translate="">No_Record_found</td>
+  </tr>
+</ng-template>
+</p-table>
+</div>
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitAdd()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Nom</label>
+                <input class="form-control" type="text" required="" placeholder="" name="tag" [(ngModel)]="record.name">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <div class="media">
+                    <label class="col-form-label m-r-10">Activer</label>
+                    <div class="media-body text-right icon-state">
+                      <label class="switch">
+                        <input type="checkbox" checked="" name="enabled" [(ngModel)]="record.enabled"><span class="switch-state"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Ajouter</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #edit let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifier</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitEdit()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-form-label">Nom</label>
+                <input class="form-control" type="text" required="" placeholder="" name="tag" [(ngModel)]="recordEdit.name">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <div class="media">
+                    <label class="col-form-label m-r-10">Activer</label>
+                    <div class="media-body text-right icon-state">
+                      <label class="switch">
+                        <input type="checkbox" checked="" name="enabled" [(ngModel)]="recordEdit.enabled"><span class="switch-state"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Modifier</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

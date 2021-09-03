@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/scss/app.scss";
+
+.router-wrapper  {
+    position:  relative;
+    overflow:  hidden;
+    width:  100vw;
+    height:  calc(100%  -  47px);
+    perspective:  1200px;
+    transform-style:  preserve-3d;
+}
+
+:host  {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #60d7a9;
+}
+
+@import "assets/showcase/styles/primeng.css";
+@import "../node_modules/primeflex/primeflex.css";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+@import "assets/fullcalendar/core.css";
+@import "assets/fullcalendar/daygrid.css";
+@import "assets/fullcalendar/timegrid.css";
+@import "../node_modules/quill/dist/quill.snow.css";
+@import "assets/showcase/styles/flags.css";
+@import "assets/showcase/styles/app/app.scss";

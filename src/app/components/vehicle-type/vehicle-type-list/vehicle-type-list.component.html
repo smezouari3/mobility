@@ -1,0 +1,379 @@
+<div class="card-header text-right">
+  <button class="custom-btn" (click)="open(add)">Ajouter</button>
+</div>
+<div class="card-body">
+  <p-table #dt [value]="records" [(selection)]="selectedRecords" dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+  [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [loading]="loading"
+  [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [filterDelay]="0" [globalFilterFields]="['name','tag','price','point','vehicleCategorie.name']">
+
+  <ng-template pTemplate="caption">
+    <div class="table-header">
+        <span class="p-input-icon-left">
+            <input pInputText type="text" class="form-control" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+        </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem"></th>
+
+      <th pSortableColumn="name">
+        <div class="p-d-flex p-jc-between p-ai-center" translate="">
+          Nom
+          <p-sortIcon field="name"></p-sortIcon>
+          <p-columnFilter type="text" field="name" display="menu" class="p-ml-auto"></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="tag">
+        <div class="p-d-flex p-jc-between p-ai-center" translate="">
+          Abreviation
+          <p-sortIcon field="tag"></p-sortIcon>
+          <p-columnFilter type="text" field="tag" display="menu" class="p-ml-auto"></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="tagline">
+        <div class="p-d-flex p-jc-between p-ai-center" translate="">
+          Description
+          <p-sortIcon field="tagline"></p-sortIcon>
+          <p-columnFilter type="text" field="tagline" display="menu" class="p-ml-auto"></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="price">
+        <div class="p-d-flex p-jc-between p-ai-center" translate="">
+          Prix
+          <p-sortIcon field="price"></p-sortIcon>
+          <p-columnFilter type="text" field="price" display="menu" class="p-ml-auto"></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="point">
+        <div class="p-d-flex p-jc-between p-ai-center" translate="">
+          Point
+          <p-sortIcon field="point"></p-sortIcon>
+          <p-columnFilter type="text" field="point" display="menu" class="p-ml-auto"></p-columnFilter>
+        </div>
+      </th>
+      <th pSortableColumn="vehicleCategorie.name">
+        <div class="p-d-flex p-jc-between p-ai-center" translate="">
+          vehicle category
+          <p-sortIcon field="vehicleCategorie.name"></p-sortIcon>
+          <p-columnFilter type="text" field="vehicleCategorie.name" display="menu" class="p-ml-auto"></p-columnFilter>
+        </div>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-record let-expanded="expanded">
+    <tr class="p-selectable-row">
+      <td>
+        <img [alt]="record.name" src="{{host+record.picture}}" width="32px" style="vertical-align: middle" />
+      </td>
+      <td> {{record.name}} </td>
+      <td> {{record.tag}} </td>
+      <td> {{record.tagline}} </td>
+      <td> {{record.price}} </td>
+      <td> {{record.point}} </td>
+      <td> <span *ngIf="record.vehicleCategorie">{{record.vehicleCategorie.name}}</span>  </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-primary" (click)="editRecord(record); open(edit)"><i class="icofont icofont-ui-edit"></i></button>
+          <button class="btn btn-secondary" (click)="deleteRecord(record)"><i class="icofont icofont-ui-delete"></i></button>
+          <!-- <button class="btn btn-success" (click)="updateCities(record); open(city)"><i class="icofont icofont-ui-check"></i></button> -->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+        <td colspan="8" translate="">No_Record_found</td>
+    </tr>
+  </ng-template>
+  </p-table>
+</div>
+
+
+<ng-template #add let-modal style="width: 800px !important;">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ajouter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitAdd()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom01">Nom</label>
+                <input class="form-control" id="validationCustom01" type="text" placeholder="Name" required="" name="Name"  [(ngModel)]="record.name">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom02">Abreviation</label>
+                <input class="form-control" id="validationCustom02" type="text" placeholder="Tag" required="" name="Tag"  [(ngModel)]="record.tag">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom03">Description</label>
+                <input class="form-control" id="validationCustom03" type="text" placeholder="Tagline" required="" name="tagline"  [(ngModel)]="record.tagline">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustomPhone">Prix</label>
+                <input class="form-control" id="validationCustomPhone" type="text" placeholder="Price" required="" name="Price" onlyNumbers [(ngModel)]="record.price">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustomPhone">Nombre de point</label>
+                <input class="form-control" id="validationCustomPhone" type="text" placeholder="Price" required="" name="point" onlyNumbers [(ngModel)]="record.point">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom04" translate="">Le type</label>
+                <select class="form-control" [(ngModel)]="record.vehicle_category_id" >
+                  <option *ngFor="let vehicleCategorie of vehicleCategories"
+                      [value]="vehicleCategorie.id"
+                      [attr.selected]="record.vehicle_category_id==vehicleCategorie.id ? true : null">
+                    {{vehicleCategorie.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <div class="media">
+                    <label class="col-form-label m-r-10">Activer</label>
+                    <div class="media-body text-right icon-state">
+                      <label class="switch">
+                        <input type="checkbox" checked="" name="enabled" [(ngModel)]="record.enabled"><span class="switch-state"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row ">
+                    <!-- <img class="img shadow shadow-showcase" alt="" src="{{host+user.profileImageUrl}}" style="margin: 5px auto;"> -->
+                  </div>
+                  <div class="row m-t-5">
+                    <label for="imageFileUp">
+                      <div class="dropzone dropzone-primary dz-single dz-clickable" style="padding: 0px;">
+                        <div class="dz-message needsclick">
+                          <i class="icon-cloud-up"></i>
+                          <h6>Drop files here or click to upload.</h6>
+                          <span>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input type="file" id="imageFileUp" class="btn btn-light mt-3" (change)="fileChangeEventAdd($event)" value="" style="display: none;"/>
+                  </div>
+                  <div *ngIf="show==true">
+                    <div class="row" style="margin: 15px auto;">
+                      <div class="text-center col-md-8" style="margin: 0px auto;">
+                          <h5>Crop Image</h5>
+                          <image-cropper class="img shadow shadow-showcase"
+                          [imageChangedEvent]="imageChangedEventAdd"
+                          [maintainAspectRatio]="true"
+                          [aspectRatio]="4 / 4"
+                          [resizeToWidth]="256"
+                          format="png"
+                          (imageCropped)="imageCroppedAdd($event)"
+                          (imageLoaded)="imageLoadedAdd()"
+                          (cropperReady)="cropperReadyAdd()"
+                          (loadImageFailed)="loadImageFailedAdd()"></image-cropper>
+                      </div>
+                    </div>
+                    <div class="row" style="margin: 5px auto;">
+                      <div class="text-center col-md-8" style="margin: 0px auto;">
+                        <h5>Aperçu</h5>
+                        <img class="img-200 shadow shadow-showcase" [src]="croppedImageAdd" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Ajouter</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #edit let-modal style="width: 800px !important;">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifier</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitEdit()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom01">Nom</label>
+                <input class="form-control" id="validationCustom01" type="text" placeholder="Name" required="" name="Name"  [(ngModel)]="recordEdit.name">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom02">Abreviation</label>
+                <input class="form-control" id="validationCustom02" type="text" placeholder="Tag" required="" name="Tag"  [(ngModel)]="recordEdit.tag">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom03">Description</label>
+                <input class="form-control" id="validationCustom03" type="text" placeholder="Tagline" required="" name="tagline"  [(ngModel)]="recordEdit.tagline">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustomPhone">Prix</label>
+                <input class="form-control" id="validationCustomPhone" type="text" placeholder="Price" required="" name="Price" onlyNumbers [(ngModel)]="recordEdit.price">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustomPhone">Nombre de point</label>
+                <input class="form-control" id="validationCustomPhone" type="text" placeholder="Price" required="" name="point" onlyNumbers [(ngModel)]="recordEdit.point">
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+              <div class="form-group">
+                <label for="validationCustom04" translate="">Le type</label>
+                <select class="form-control" [(ngModel)]="recordEdit.vehicle_category_id" >
+                  <option *ngFor="let vehicleCategorie of vehicleCategories"
+                      [value]="vehicleCategorie.id"
+                      [attr.selected]="recordEdit.vehicle_category_id==vehicleCategorie.id ? true : null">
+                    {{vehicleCategorie.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <div class="media">
+                    <label class="col-form-label m-r-10">Activer</label>
+                    <div class="media-body text-right icon-state">
+                      <label class="switch">
+                        <input type="checkbox" checked="" name="enabled" [(ngModel)]="recordEdit.enabled"><span class="switch-state"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row ">
+                    <img class="img shadow shadow-showcase" alt="" src="{{host+recordEdit.picture}}" style="margin: 5px auto;">
+                  </div>
+                  <div class="row m-t-5">
+                    <label for="imageFileUp">
+                      <div class="dropzone dropzone-primary dz-single dz-clickable" style="padding: 0px;">
+                        <div class="dz-message needsclick">
+                          <i class="icon-cloud-up"></i>
+                          <h6>Drop files here or click to upload.</h6>
+                          <span>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</span>
+                        </div>
+                      </div>
+                    </label>
+                    <input type="file" id="imageFileUp" class="btn btn-light mt-3" (change)="fileChangeEvent($event)" value="" style="display: none;"/>
+                  </div>
+                  <div *ngIf="show==true">
+                    <div class="row" style="margin: 15px auto;">
+                      <div class="text-center col-md-8" style="margin: 0px auto;">
+                          <h5>Crop Image</h5>
+                          <image-cropper class="img shadow shadow-showcase"
+                          [imageChangedEvent]="imageChangedEvent"
+                          [maintainAspectRatio]="true"
+                          [aspectRatio]="4 / 4"
+                          [resizeToWidth]="256"
+                          format="png"
+                          (imageCropped)="imageCropped($event)"
+                          (imageLoaded)="imageLoaded()"
+                          (cropperReady)="cropperReady()"
+                          (loadImageFailed)="loadImageFailed()"></image-cropper>
+                      </div>
+                    </div>
+                    <div class="row" style="margin: 5px auto;">
+                      <div class="text-center col-md-8" style="margin: 0px auto;">
+                        <h5>Aperçu</h5>
+                        <img class="img-200 shadow shadow-showcase" [src]="croppedImage" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 text-right mt-3">
+              <button class="btn btn-primary mr-1 text-right" type="submit">Modifier</button>
+              <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+         </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #city let-modal style="width: 800px !important;">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Choisir les villes</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="login-card mt-10 mb-10" style="background: none; align-items: start; padding: 0px; width: 100%; min-height:auto">
+      <div class="login-main" style="width: 100%; padding: 0px;">
+        <form class="needs-validation theme-form" (ngSubmit)="submitCities()">
+          <div class="row">
+            <div class="col-sm-12 col-xl-12">
+              <div class="row mt-3 mb-3">
+                <div class="col-5">
+                  <h4 class="text-muted">Information</h4>
+                </div>
+                <div class="col-7 ligne mt-1"></div>
+              </div>
+              <div class="form-group">
+                <div class="col-form-label">Les villes</div>
+                <ng-select [items]="Cities" class="js-example-basic-multiple" placeholder="Select"
+                [(ngModel)]="selectedCities" [multiple]="true"></ng-select>
+              </div>
+              <div class="col-12 text-right mt-3">
+                <button class="btn btn-primary mr-1 text-right" type="submit">Ajouter</button>
+                <button class="btn btn-secondary text-right"  (click)="modal.dismiss('Cross click')">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

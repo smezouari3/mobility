@@ -1,0 +1,167 @@
+<simple-notifications></simple-notifications>
+<app-breadcrumb [title]="'list_of_users'" [items]="['Dashboard']" [active_item]="'list_of_users'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-xl-6">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Default Form Layout</h5><span>Using the <a href="javascript:void(0)">card</a> component, you can
+                extend the default collapse behavior to create an accordion.</span>
+            </div>
+            <!-- <form class="needs-validation theme-form" #profileUserForm="ngForm" novalidate [ngClass]="{'was-validated': validate}" (ngSubmit)="onUpdateUser(profileUserForm.value)"> -->
+              <form class="needs-validation theme-form" #editUserForm="ngForm" novalidate [ngClass]="{'was-validated': validate}" >
+            <div class="card-body">
+
+                <div class="form-row">
+                  <div class="col-md-6 mb-3">
+                    <label for="validationCustom01">First name</label>
+                    <input class="form-control" id="validationCustom01" type="text" placeholder="First name" required="" name="firstName" onlyAlphabets [(ngModel)]="user.firstName">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="validationCustom02">Last name</label>
+                    <input class="form-control" id="validationCustom02" type="text" placeholder="Last name" required="" name="lastName" onlyAlphabets [(ngModel)]="user.lastName">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <!-- <div class="col-md-6 mb-3">
+                    <label for="validationCustomUsername">Username</label>
+                    <input class="form-control" id="validationCustomUsername" type="text" placeholder="username" required="" name="username" onlyAlphabets [(ngModel)]="user.username">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div> -->
+                  <div class="col-md-6 mb-3">
+                    <label for="validationCustom03s">Email</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend"><span class="input-group-text" id="inputGroupPrepend">@</span></div>
+                      <input class="form-control" id="validationCustom03s" type="email" placeholder="Email" required="" aria-describedby="inputGroupPrepend"  name="email" email [(ngModel)]="user.email">
+                      <div class="invalid-feedback">Please choose an email.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="validationCustomPhone">Tel</label>
+                    <input class="form-control" id="validationCustomPhone" type="text" placeholder="Tel" required="" name="phone" onlyNumbers [(ngModel)]="user.phone">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div>
+                </div>
+                <!-- <div class="form-row">
+                  <div class="col-md-12 mb-3">
+                    <label for="validationCustomPhone">Tel</label>
+                    <input class="form-control" id="validationCustomPhone" type="text" placeholder="Tel" required="" name="phone" onlyNumbers [(ngModel)]="user.phone">
+                    <div class="valid-feedback">Looks good!</div>
+                  </div>
+                </div> -->
+                <div class="form-row">
+                  <div class="col-md-12 mb-3">
+                    <label for="validationCustom03ss">Role</label>
+                    <ng-select id="validationCustom03ss" [items]="roles" bindLabel="value" bindValue="key" onlyAlphabets placeholder="Select"
+                    class="js-example-placeholder-multiple" name="role" [(ngModel)]="user.role">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-check">
+                    <div class="media">
+                      <label class="col-form-label m-r-10">Active</label>
+                      <div class="media-body text-right icon-state">
+                        <label class="switch">
+                          <input type="checkbox" checked="" name="active" [(ngModel)]="user.isActive"><span class="switch-state"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-check">
+                    <div class="media">
+                      <label class="col-form-label m-r-10">Unlocked</label>
+                      <div class="media-body text-right icon-state">
+                        <label class="switch">
+                          <input type="checkbox" checked="" name="notLocked" [(ngModel)]="user.isNotLocked"><span class="switch-state"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary mr-1" (click)="submit()" [disabled]="editUserForm.invalid" >Submit</button>
+              <button class="btn btn-secondary">Cancel</button>
+            </div>
+          </form>
+          </div>
+        </div>
+
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Inline Form</h5><span>Use<code>.form-inline</code>class in the form to style with inline
+                fields.</span>
+            </div>
+            <div class="card-body">
+              <h6>Inline Form with Label</h6>
+                <div class="form-group">
+                  <label class="col-form-label">Reset the password</label>
+                  <button class="btn btn-primary" (click)="onRsetPassword()">Reset</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-12 col-xl-6">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Mega form</h5>
+            </div>
+            <div class="card-body">
+              <div class="row text-center">
+                <img class="img shadow shadow-showcase p-25" alt="" src="{{user.profileImageUrl}}">
+              </div>
+              <div class="row">
+                  <div class="col-md-3 text-center">
+                    <input type="file" class="btn btn-primary mt-3" (change)="fileChangeEvent($event)" value=""/>
+                  </div>
+              </div>
+              <div class="row" style="margin-top: 15px;">
+                  <div class="text-center col-md-8">
+                      <h5>Crop Image</h5>
+                      <image-cropper class="img shadow shadow-showcase"
+                      [imageChangedEvent]="imageChangedEvent"
+                      [maintainAspectRatio]="true"
+                      [aspectRatio]="4 / 4"
+                      [resizeToWidth]="256"
+                      format="png"
+                      (imageCropped)="imageCropped($event)"
+                      (imageLoaded)="imageLoaded()"
+                      (cropperReady)="cropperReady()"
+                      (loadImageFailed)="loadImageFailed()"></image-cropper>
+                  </div>
+
+              </div>
+              <div class="row" style="margin-top: 15px;">
+                <div class="text-center col-md-8">
+                  <h5>Preview</h5>
+                  <img class="img-200 shadow shadow-showcase" [src]="croppedImage" />
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <form class="form-inline theme-form mt-3 mb-0" (ngSubmit)="onUpdateProfileImage()">
+                <button class="btn btn-primary mr-1" type="submit">Submit</button>
+                <button class="btn btn-secondary">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

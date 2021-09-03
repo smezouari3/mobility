@@ -1,0 +1,114 @@
+<simple-notifications></simple-notifications>
+<app-breadcrumb [title]="'list_of_vehicle_type'" [items]="['Dashboard']" [active_item]="'list_of_vehicle_type'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Default Form Layout</h5><span>Using the <a href="javascript:void(0)">card</a> component, you can
+                extend the default collapse behavior to create an accordion.</span>
+            </div>
+            <form class="needs-validation theme-form" #editReocrdForm="ngForm" novalidate [ngClass]="{'was-validated': validate}" >
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom01">Name</label>
+                        <input class="form-control" id="validationCustom01" type="text" placeholder="Name" required="" name="Name"  [(ngModel)]="record.name">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom02">Tag</label>
+                        <input class="form-control" id="validationCustom02" type="text" placeholder="Tag" required="" name="Tag"  [(ngModel)]="record.tag">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <label for="validationCustom03">Tag Line</label>
+                        <input class="form-control" id="validationCustom03" type="text" placeholder="Tagline" required="" name="tagline"  [(ngModel)]="record.tagline">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <label for="validationCustomPhone">Price</label>
+                        <input class="form-control" id="validationCustomPhone" type="text" placeholder="Price" required="" name="Price" onlyNumbers [(ngModel)]="record.price">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12 mb-3">
+                        <label for="validationCustom03ss">Vehicle category</label>
+                        <ng-select id="validationCustom03ss" [items]="vehicleCategories" bindLabel="value" bindValue="key" onlyAlphabets placeholder="Select"
+                        (click)="load($event)"
+                        class="js-example-placeholder-multiple" name="vehicleCategory" [(ngModel)]="record.vehicle_category_id">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-check">
+                        <div class="media">
+                          <label class="col-form-label m-r-10">Active</label>
+                          <div class="media-body text-right icon-state">
+                            <label class="switch">
+                              <input type="checkbox" checked="" name="active" [(ngModel)]="record.enabled"><span class="switch-state"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-1"></div>
+
+                  <div class="col-sm-6">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <img class="img shadow shadow-showcase p-25" alt="" src="{{record.picture}}">
+                        <div class="col-md-3 text-center">
+                          <input type="file" class="btn btn-primary mt-3" (change)="fileChangeEvent($event)" value=""/>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div style="margin-top: 15px;">
+                          <div class="text-center col-md-8">
+                              <h5>Crop Image</h5>
+                              <image-cropper class="img shadow shadow-showcase"
+                              [imageChangedEvent]="imageChangedEvent"
+                              [maintainAspectRatio]="true"
+                              [aspectRatio]="4 / 4"
+                              [resizeToWidth]="256"
+                              format="png"
+                              (imageCropped)="imageCropped($event)"
+                              (imageLoaded)="imageLoaded()"
+                              (cropperReady)="cropperReady()"
+                              (loadImageFailed)="loadImageFailed()"></image-cropper>
+                          </div>
+                        </div>
+                        <div style="margin-top: 15px;">
+                          <div class="text-center col-md-8">
+                            <h5>Preview</h5>
+                            <img class="img-200 shadow shadow-showcase" [src]="croppedImage" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-primary mr-1" (click)="submit()" [disabled]="editReocrdForm.invalid" >Submit</button>
+                <button class="btn btn-secondary">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

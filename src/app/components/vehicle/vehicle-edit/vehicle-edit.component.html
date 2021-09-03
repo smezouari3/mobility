@@ -1,0 +1,92 @@
+<simple-notifications></simple-notifications>
+<app-breadcrumb [title]="'list_of_vehicle_type'" [items]="['Dashboard']" [active_item]="'list_of_vehicle_type'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Modifier la vehicule</h5>
+            </div>
+            <form class="needs-validation theme-form" #editReocrdForm="ngForm" novalidate [ngClass]="{'was-validated': validate}" >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-2"></div>
+                  <div class="col-sm-8">
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <label for="validationCustom0">Matricule</label>
+                        <input class="form-control" id="validationCustom0" type="text" placeholder="matricule" required="" name="matricule"  [(ngModel)]="record.matricule">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom01" translate="">Nom de la marque</label>
+                        <input class="form-control" id="validationCustom01" type="text" placeholder="marque" required="" name="brandName"  [(ngModel)]="record.brandName">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="validationCustom02" translate="">Le nom</label>
+                        <input class="form-control" id="validationCustom02" type="text" placeholder="modele" required="" name="vehicleName"  [(ngModel)]="record.vehicleName">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <label for="validationCustom03" translate="">La couleur</label>
+                        <input class="form-control" id="validationCustom03" type="text" placeholder="couleur" required="" name="vehicleColor"  [(ngModel)]="record.vehicleColor">
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12 mb-3">
+                        <label for="validationCustom04" translate="">Le type</label>
+                        <select class="form-control" [(ngModel)]="record.vehicle_type_id" >
+                          <option *ngFor="let type of types"
+                              [value]="type.id"
+                              [attr.selected]="record.vehicle_type_id==type.id ? true : null">
+                            {{type.name}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12 mb-3">
+                        <label for="validationCustom05" translate="">Le chaffeur</label>
+                        <select class="form-control" [(ngModel)]="record.driverId" >
+                          <option *ngFor="let user of users"
+                              [value]="user.key"
+                              [attr.selected]="record.driverId==user.key ? true : null">
+                            {{user.value}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="form-check">
+                        <div class="media">
+                          <label class="col-form-label m-r-10">Active</label>
+                          <div class="media-body text-right icon-state">
+                            <label class="switch">
+                              <input type="checkbox" checked="" name="active" [(ngModel)]="record.enabled"><span class="switch-state"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-primary mr-1" (click)="submit()" [disabled]="editReocrdForm.invalid" >Submit</button>
+                <button class="btn btn-secondary">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
