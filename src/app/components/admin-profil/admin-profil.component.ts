@@ -26,6 +26,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AdminProfilComponent implements OnInit {
 
+  private x:number;
   user: User;
   private subscriptions: Subscription[] = [];
 

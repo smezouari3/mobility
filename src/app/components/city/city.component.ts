@@ -12,6 +12,8 @@ import { Component, OnInit } from '@angular/core';
 export class CityComponent implements OnInit {
 
   public dialogVisible: boolean;
+  public dialogVisible2: boolean;
+  public dialogVisible3: boolean;
 
   //tst
 
